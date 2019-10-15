@@ -8,9 +8,6 @@
 </template>
 
 <script>
-import '@p/ueditor/ueditor.config.js'
-import '@p/ueditor/ueditor.all.js'
-import '@p/ueditor/lang/zh-cn/zh-cn.js'
 
 export default {
   name: 'Editor',
