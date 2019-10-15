@@ -20,6 +20,8 @@
     "VueRouter": "readonly",
     "Vuex": "readonly",
     "VueI18n": "readonly",
-    "echarts": "readonly"
+    "echarts": "readonly",
+    "AMap": "readonly",
+    "UE": "readonly"
   }
 }

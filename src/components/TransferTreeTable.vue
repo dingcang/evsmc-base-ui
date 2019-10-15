@@ -1,8 +1,8 @@
 <template>
-  <div v-loading="load">
+  <div>
     <div
-      :class="{'check-all': checkAllReadonly && checkAll}"
-      element-loading-background="rgba(0, 0, 0, 0.5)"
+      v-loading="load"
+      element-loading-background="rgba(0, 0, 0, 0)"
     >
       <el-row class="margin-bottom10">
         <el-col :span="6">
@@ -16,7 +16,7 @@
             v-model="checkAll"
             @change="treeCheckAll"
           >
-            {{ chooseAllText }}
+            {{ $t('common.allChecked') }}
           </el-checkbox>
         </el-col>
         <!-- 已选择和清除按钮 -->
@@ -31,7 +31,6 @@
             <el-button
               size="mini"
               type="text"
-              class="empty-btn"
               @click="toggleTree([])"
             >
               {{ $t('common.clean') }}
@@ -58,15 +57,20 @@
               />
             </el-col>
           </el-row>
-          <div class="tree xy-scrollbar">
+          <div
+            class="tree xy-scrollbar"
+            style="max-height: 300px"
+          >
             <el-tree
               ref="tree"
               :props="treeOptions"
               :show-checkbox="treeOptions.showCheckbox"
               :default-expand-all="treeOptions.defaultExpandAll"
+              :render-after-expand="treeOptions.renderAfterExpand"
               :data="data"
               :node-key="treeOptions.nodeKey"
               :filter-node-method="filterNode"
+              :empty-text="emptyText"
               style="width: 100%"
               highlight-current
               @check-change="treeCheck"
@@ -79,10 +83,9 @@
           :offset="1"
         >
           <div class="transfer-table-right xy-scrollbar">
-            <!-- 这里不能使用index作为key值，会出现移除任何一个tag都会跳到最尾端执行渐变动画的bug -->
             <el-tag
-              v-for="tag in selectedTags"
-              :key="tag.id"
+              v-for="(tag, index) in selectedTags"
+              :key="index"
               :span="24"
               :disable-transitions="false"
               closable
@@ -109,13 +112,6 @@ export default {
       type: Array,
       default: function () {
         return []
-      }
-    },
-    // 全选文字
-    chooseAllText: {
-      type: String,
-      default: function () {
-        return this.$t('common.allChecked')
       }
     },
     // 树穿梭框配置
@@ -164,6 +160,11 @@ export default {
             type: Boolean,
             default: false
           },
+          // 是否在第一次展开某个树节点后才渲染其子节点
+          renderAfterExpand: {
+            type: Boolean,
+            default: true
+          },
           // node-key绑定的字段
           nodeKey: {
             type: String,
@@ -171,11 +172,6 @@ export default {
           }
         }
       }
-    },
-    // 树加载的遮罩
-    load: {
-      type: Boolean,
-      default: false
     },
     // 表格数据
     treeData: {
@@ -190,38 +186,28 @@ export default {
       default: function () {
         return []
       }
-    },
-    // 全选
-    checkAllDefault: {
-      type: Boolean,
-      default: false
-    },
-    // 全选时组件变只读
-    checkAllReadonly: {
-      type: Boolean,
-      default: false
     }
   },
   data () {
     return {
+      // 加载的遮罩
+      load: false,
       // 树数据
       data: [],
       // 全选
       checkAll: false,
-      // 树数据 单数组形式
-      treeDataList: [],
-      // 树数据ID 单数组形式
-      treeDataIdList: [],
       // 过滤字段
-      filterText: ''
+      filterText: '',
+      timer: null,
+      loadText: this.$t('common.loading'),
+      // 表格空数据提示
+      emptyText: ' '
     }
   },
   computed: {
     // 选中的数据
     selectedTags: {
-      get: function () {
-        return this.selected
-      },
+      get: function () { return this.selected },
       set: function (v) { this.$emit('changeVal', v) }
     }
   },
@@ -235,9 +221,7 @@ export default {
       immediate: true,
       deep: true,
       handler (val) {
-        this.data = []
         this.data = val
-        this.makeTreeListData()
       }
     },
     // 设置已选择的数据
@@ -245,34 +229,30 @@ export default {
       immediate: true,
       deep: true,
       handler (val) {
-        this.toggleTree(val)
+        this.$nextTick(function () {
+          this.$refs.tree.setCheckedKeys(val)
+        })
+      }
+    },
+    load: function (v) {
+      if (v) {
+        this.emptyText = ' '
+      } else {
+        this.emptyText = this.$t('common.noDataTip')
       }
     }
   },
   methods: {
-    // 重组树结构的数据 单数组形式
-    makeTreeListData () {
-      this.checkAll = this.checkAllDefault
-      this.treeDataList = []
-      this.treeDataIdList = []
-      let childrenName = this.treeOptions.children
-      let getId = arr => {
-        arr.forEach(v => {
-          // v.disabled = this.checkAll
-          this.treeDataList.push(v)
-          this.treeDataIdList.push(v[this.treeOptions.nodeKey])
-          if (v[childrenName] instanceof Array) {
-            getId(v[childrenName])
-          }
-        })
-      }
-      getId(this.data)
-    },
     // 树全选和全取消
     treeCheckAll () {
-      let data = this.checkAll ? this.treeDataIdList : []
+      let data = this.checkAll ? this.data : []
+      if (data.length !== 0) {
+        data = data.filter(item =>
+          item.attributes.disabled !== 'true'
+        )
+      }
+      this.load = true
       this.toggleTree(data)
-      this.$emit('checkAll', this.checkAll)
     },
     // 过滤
     filterNode (value, data) {
@@ -280,49 +260,43 @@ export default {
       return data[this.treeOptions.label].indexOf(value) !== -1
     },
     // 树节点选中状态变化时 对应的tag变化
-    treeCheck (current, checked) {
-      if (this.$method.isNotEmpty(current[this.treeOptions.children])) return
-      if (checked) {
-        // 当默认勾选项太多的时候，会出现tags重复的bug，所以这里要加一个是否已存在tag的判断
-        this.selectedTags.every(item => item.id !== current.id) && this.selectedTags.push(current)
-      } else {
-        let removeIndex = this.selectedTags.findIndex(item => item.id === current.id)
-        if (removeIndex !== -1) this.selectedTags.splice(removeIndex, 1)
-      }
+    treeCheck (current, checked, children) {
+      current.checked = checked
+      clearTimeout(this.timer)
+      this.timer = setTimeout(function () {
+        this.selectedTags = this.filterSelectedNote(this.data, 'children', 'attributes')
+      }.bind(this), 200)
     },
     // 移除已选择
     removeTag (tag) {
       this.selectedTags.splice(this.selectedTags.findIndex(item => item.id === tag.id), 1)
-      let ids = []
-      for (let item of this.selectedTags) ids.push(item.id)
-      this.toggleTree(ids)
+      this.toggleTree(this.selectedTags)
     },
     // 设置选中或取消
     toggleTree (rows) {
       if (rows.length === 0) this.checkAll = false
       this.$nextTick(function () {
-        this.$refs.tree.setCheckedKeys(rows)
+        this.$refs.tree.setCheckedNodes(rows)
       })
+      this.load = false
+    },
+    // 过滤已选择的节点
+    filterSelectedNote (tree, children, attributes) {
+      return tree.reduce((a, i) => {
+        if (!i[children]) return a
+        if (i[children].length === 0) {
+          if (i[attributes].disabled === 'false') {
+            if (i.checked) {
+              a.push(i)
+            }
+          }
+          return a
+        } else {
+          let currentItem = this.filterSelectedNote(i[children], children, attributes)
+          return a.concat(currentItem)
+        }
+      }, [])
     }
   }
 }
 </script>
-
-<style scoped>
-  .empty-btn {
-    padding: 0;
-  }
-  .check-all >>> .el-tree .el-checkbox {
-    pointer-events: none;
-  }
-  .check-all >>> .el-tree .el-checkbox__input .el-checkbox__inner {
-    background-color: #f2f6fc;
-    border-color: #dcdfe6;
-  }
-  .check-all >>> .el-tree .el-checkbox__input .el-checkbox__inner:after {
-    border-color: #c0c4cc;
-  }
-  .check-all .empty-btn, .check-all >>> .transfer-table-right .el-tag__close {
-    display: none;
-  }
-</style>

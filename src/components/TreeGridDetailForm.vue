@@ -1,5 +1,6 @@
 <template>
   <el-form
+
     :label-width="options.labelWidth || labelWidth"
     :size="options.size || size"
     class="detail-page"
@@ -11,6 +12,7 @@
       >
         <el-col :span="options.detailSpan || detailSpan">
           <el-form-item
+            v-if="showTextCol(item, data)"
             :label="item.name"
           >
 
@@ -134,6 +136,13 @@ export default {
     }
   },
   methods: {
+    // 隐藏列
+    showTextCol (item, data) {
+      if (this.$method.isNotEmpty(item.hide)) {
+        return data[item.hide.model] !== item.hide.value && this.$method.isEmpty(item.type)
+      }
+      return true
+    },
     showTip (value) {
       let strVal = value + ''
       return this.$method.isEmpty(strVal) || strVal.length < 8

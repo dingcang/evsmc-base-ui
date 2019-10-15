@@ -2,24 +2,28 @@
   <div>
     <el-row
       v-if="options.showFilter"
-      :gutter="10">
+      :gutter="10"
+    >
       <el-col
         v-if="showMultipartQuery"
-        :span="filterLeftSpan">
+        :span="filterLeftSpan"
+      >
         <el-select
           v-model="multipartQueryModel"
-          size="mini">
+          size="mini"
+        >
           <el-option
             v-for="item in options.multipartQuery"
             :key="item.value"
             :label="item.name"
-            :value="item.value"/>
+            :value="item.value"
+          />
         </el-select>
       </el-col>
       <el-col :span="filterRightSpan">
         <el-input
-          :placeholder="$t('common.filterText')"
           v-model="filterText"
+          :placeholder="$t('common.filterText')"
           :maxlength="64"
           size="mini"
           class="margin-bottom10"
@@ -169,6 +173,15 @@ export default {
           showBtnIconJudge: {
             type: Object,
             default: {}
+          },
+          // 是否给渲染内容添加额外的css类名
+          isAddRenderContentClass: {
+            type: Boolean,
+            default: false
+          },
+          addRenderContentClass: {
+            type: Function,
+            default: () => ''
           }
         }
       }
@@ -281,7 +294,7 @@ export default {
       this.$emit('loadNode', node, resolve)
     },
     // 渲染页面操作按钮
-    renderContent: function (createElement, { node, data }) {
+    renderContent: function (createElement, { node, data, store }) {
       let that = this
       if (!this.showRenderContent) {
         // 默认渲染只显示label
@@ -289,7 +302,7 @@ export default {
           'el-tooltip',
           {
             attrs: {
-              class: 'item custom-tree-node',
+              class: this.renderContentClass({ node, data, store }),
               effect: 'dark',
               content: node.label,
               disabled: data.toolTipDisabled,
@@ -351,11 +364,22 @@ export default {
                     class: 'tree-button'
                   }
                 }, [
-                  createElement('el-button', {
+                  that.showBtnType(data, 'download') ? createElement('el-button', {
                     attrs: {
-                      class: that.showBtnType(data, 'detail')
-                        ? 'el-button el-button--text el-button--mini fa fa-info-circle'
-                        : 'display-none'
+                      class: 'el-button el-button--text el-button--mini fa fa-download'
+                    },
+                    on: {
+                      click: function (e) {
+                        window.event
+                          ? (window.event.cancelBubble = true)
+                          : e.stopPropagation()
+                        that.operationCallBack('download', data)
+                      }
+                    }
+                  }) : '',
+                  that.showBtnType(data, 'detail') ? createElement('el-button', {
+                    attrs: {
+                      class: 'el-button el-button--text el-button--mini fa fa-info-circle'
                     },
                     on: {
                       click: function (e) {
@@ -365,12 +389,10 @@ export default {
                         that.operationCallBack('detail', data)
                       }
                     }
-                  }),
-                  createElement('el-button', {
+                  }) : '',
+                  that.showBtnType(data, 'edit') ? createElement('el-button', {
                     attrs: {
-                      class: that.showBtnType(data, 'edit')
-                        ? 'el-button el-button--text el-button--mini fa fa-edit'
-                        : 'display-none'
+                      class: 'el-button el-button--text el-button--mini fa fa-edit'
                     },
                     on: {
                       click: function (e) {
@@ -380,12 +402,10 @@ export default {
                         that.operationCallBack('edit', data)
                       }
                     }
-                  }),
-                  createElement('el-button', {
+                  }) : '',
+                  that.showBtnType(data, 'remove') ? createElement('el-button', {
                     attrs: {
-                      class: that.showBtnType(data, 'remove')
-                        ? 'margin-right5 el-button el-button--text el-button--mini fa fa-trash'
-                        : 'display-none'
+                      class: 'margin-right5 el-button el-button--text el-button--mini fa fa-trash'
                     },
                     on: {
                       click: function (e) {
@@ -395,13 +415,16 @@ export default {
                         that.operationCallBack('remove', data)
                       }
                     }
-                  })
+                  }) : ''
                 ])
               ]
             )
           ]
         )
       }
+    },
+    renderContentClass (nodeDataStore) {
+      return this.options.isAddRenderContentClass ? 'item custom-tree-node' + ' ' + this.options.addRenderContentClass.bind(this)(nodeDataStore) : 'item custom-tree-node'
     },
     // 渲染按钮显示隐藏
     renderBtn (that, data, value, currentNode, event) {
@@ -435,6 +458,8 @@ export default {
           that.$set(data, 'detailShow', value)
         } else if (cur === 'edit') {
           that.$set(data, 'editShow', value)
+        } else if (cur === 'download') {
+          that.$set(data, 'downloadShow', value)
         } else if (cur === 'remove') {
           that.$set(data, 'removeShow', value)
         }

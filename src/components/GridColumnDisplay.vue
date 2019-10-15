@@ -143,11 +143,11 @@ export default {
         if (!item.show) param.columns.push(item.prop)
       }
       // PersonalCenter.hiddenColumns(param).then(() => {
-      //   // 设置本地隐藏列
-      //   this.$store.commit('setHiddenGridColumnById', param)
-      //   this.columns = [...this.hiddenColumns, ...this.columns]
-      //   this.$emit('save', this.columns)
-      //   this.close()
+      // 设置本地隐藏列
+      this.$store.commit('setHiddenGridColumnById', param)
+      this.columns = [...this.hiddenColumns, ...this.columns]
+      this.$emit('save', this.columns)
+      this.close()
       // })
     },
     // 关闭

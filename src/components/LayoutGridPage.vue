@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: 'LayoutGridPage',
   props: {
     loadend: {
       type: Function,

@@ -139,7 +139,6 @@ export default new VueI18n({
         'treeGridDetailForm': '树表格右上角的详情组件',
         'editor': '富文本编辑器',
         'echarts': 'Echarts',
-        'highCharts': 'HighCharts',
         'interval': '设置定时',
         'msgTemplate': '短信模板',
         'vehicleFiling': '车辆防篡改备案激活日志',

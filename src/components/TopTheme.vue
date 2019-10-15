@@ -3,7 +3,8 @@
     v-model="themeValue"
     size="small"
     class="theme-picker"
-    popper-class="theme-picker-dropdown"/>
+    popper-class="theme-picker-dropdown"
+  />
 </template>
 
 <script>

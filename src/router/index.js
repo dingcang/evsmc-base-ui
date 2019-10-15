@@ -17,11 +17,11 @@ import EditTab from '@/views/demo/tab/EditTab.vue'
 import Copy from '@/views/demo/copy/Copy.vue'
 import GeneratingCode from '@/views/demo/generatingCode/GeneratingCode.vue'
 import TreeGrid from '@/views/demo/treeGrid/TreeGrid.vue'
-import ImportFile from '@/views/demo/importFile/ImportFile.vue'
+// import ImportFile from '@/views/demo/importFile/ImportFile.vue'
 import TransferTable from '@/views/demo/transferTable/TransferTable.vue'
 import TreeGridHead from '@/views/demo/treeGridHead/TreeGridHead.vue'
 import TransferTreeTable from '@/views/demo/transferTreeTable/TransferTreeTable.vue'
-import UploadImg from '@/views/demo/uploadImg/UploadImg.vue'
+// import UploadImg from '@/views/demo/uploadImg/UploadImg.vue'
 import AlarmReminder from '@/views/demo/staticPage/AlarmReminder.vue'
 import LayoutPage from '@/views/demo/layoutPage/LayoutPage.vue'
 import TransferPageTable from '@/views/demo/transferPageTable/TransferPageTable.vue'
@@ -31,7 +31,6 @@ import Password from '@/views/demo/password/Password.vue'
 import IconBatchButton from '@/views/demo/iconBatchButton/IconBatchButton.vue'
 import TreeGridDetailForm from '@/views/demo/treeGridDetailForm/TreeGridDetailForm.vue'
 import Echarts from '@/views/demo/echarts/Echarts.vue'
-import HighCharts from '@/views/demo/highCharts/HighCharts.vue'
 import Interval from '@/views/demo/interval/Interval.vue'
 
 Vue.use(Router)
@@ -122,11 +121,11 @@ export default new Router({
       name: 'treeGrid',
       component: TreeGrid
     },
-    {
-      path: '/importFile',
-      name: 'importFile',
-      component: ImportFile
-    },
+    // {
+    //   path: '/importFile',
+    //   name: 'importFile',
+    //   component: ImportFile
+    // },
     {
       path: '/transferTable',
       name: 'transferTable',
@@ -142,11 +141,11 @@ export default new Router({
       name: 'transferTreeTable',
       component: TransferTreeTable
     },
-    {
-      path: '/uploadImg',
-      name: 'uploadImg',
-      component: UploadImg
-    },
+    // {
+    //   path: '/uploadImg',
+    //   name: 'uploadImg',
+    //   component: UploadImg
+    // },
     {
       path: '/alarmReminder',
       name: 'alarmReminder',
@@ -191,11 +190,6 @@ export default new Router({
       path: '/echarts',
       name: 'echarts',
       component: Echarts
-    },
-    {
-      path: '/highCharts',
-      name: 'highCharts',
-      component: HighCharts
     },
     {
       path: '/interval',

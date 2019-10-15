@@ -1,7 +1,11 @@
 <template>
   <div>
-    <el-row class="margin-bottom10 text-align-right">
-      <el-col :span="24">
+    <el-row
+      class="margin-bottom10 text-align-right"
+    >
+      <el-col
+        :span="24"
+      >
         <div
           v-for="(item, index) in buttonList"
           :key="index"
@@ -20,7 +24,6 @@
               @click="handleButton(item.type)"
             >
               <i :class="$method.isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
-              <span v-show="item.showText">{{ item.name }}</span>
             </el-button>
           </el-tooltip>
           <!-- 下拉列表显示的配置 -->
@@ -30,16 +33,18 @@
             effect="dark"
             placement="top"
           >
-            <el-dropdown v-if="showDropDownBtn(item)">
+            <el-dropdown
+              v-if="showDropDownBtn(item)"
+            >
               <el-button size="mini">
                 <i :class="$method.isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
                 <i class="el-icon-arrow-down el-icon--right" />
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
-                  v-for="(item2, index1) in item.data"
+                  v-for="(item2,index) in item.data"
                   v-if="showDropDownItem(item2)"
-                  :key="index1"
+                  :key="index"
                   @click.native="handleButton(item2.type)"
                 >
                   <span>
@@ -77,12 +82,6 @@ export default {
   data: function () {
     return {}
   },
-  computed: {
-    // 判断显示下拉选项权限 显示/隐藏
-    showDropDownItem (item) {
-      return this.$method.isEmpty(item.perm) || this.hasPerm(item.perm)
-    }
-  },
   mounted () {
     this.initData()
   },
@@ -99,6 +98,10 @@ export default {
       let noPermIndex = item.data.findIndex(cur => this.$method.isEmpty(cur.perm))
       let index = item.data.findIndex(cur => this.hasPerm(cur.perm))
       return index !== -1 || noPermIndex !== -1
+    },
+    // 判断显示下拉选项权限 显示/隐藏
+    showDropDownItem (item) {
+      return this.$method.isEmpty(item.perm) || this.hasPerm(item.perm)
     },
     // 初始化 配置显示或隐藏  显示/隐藏列按钮
     initData () {
@@ -117,3 +120,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .inline-style{
+    display:inline-block
+  }
+</style>

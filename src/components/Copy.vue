@@ -12,7 +12,7 @@
 </template>
 
 <script>
-// import _ from 'underscore'
+import _ from 'underscore'
 export default {
   props: {
     // 描述
@@ -35,7 +35,7 @@ export default {
     // 拷贝,不设置回调方法
     copy (text) {
       let that = this
-      if (text) this.value = text
+      if (!_.isUndefined(text)) this.value = text
       this.$method.copyToClipboard(this.value)
       this.copyTip = this.$t('common.copied')
       setTimeout(function () {

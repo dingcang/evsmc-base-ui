@@ -37,7 +37,6 @@
               <el-select
                 v-model="queryValue[item.id]"
                 :placeholder="item.placeholder"
-                :clearable="!item.unClearAble"
               >
                 <el-option
                   v-for="option in item.data"
@@ -105,7 +104,7 @@
 </template>
 
 <script>
-// import _ from 'underscore'
+import _ from 'underscore'
 import Grid from '@/components/Grid'
 
 export default {
@@ -199,24 +198,22 @@ export default {
     },
     // 添加默认值属性
     addDefault (params) {
-      // _.each(params, (value, key) => {
-      //   // 添加默认属性
-      //   this.$set(this.queryValue, key, value)
-      // })
-      this.queryValue = Object.assign(this.queryValue, params)
+      _.each(params, (value, key) => {
+        // 添加默认属性
+        this.$set(this.queryValue, key, value)
+      })
     },
     // 查询方法回调
     query (params) {
-      let conditions = { start: 0, conditions: [] }
-      // _.each(this.hiddenQueryDefault, (value, key) => {
-      //   conditions.conditions.push({ name: key, value: value })
-      // })
-      conditions.conditions.push(...this.hiddenQueryDefault.map((value, key) => ({ name: key, value: value })))
+      let conditions = { conditions: [] }
+      _.each(this.hiddenQueryDefault, (value, key) => {
+        conditions.conditions.push({ name: key, value: value })
+      })
       // 分页
       if (this.$method.isNotEmpty(params)) {
         Object.assign(conditions, params)
       }
-      this.queryOptions.columns.map(item => {
+      _.each(this.queryOptions.columns, item => {
         let value = this.queryValue[item.id]
         if (this.$method.isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
           // 特殊处理年类型的日期

@@ -38,13 +38,11 @@
               v-show="item.show"
               :key="item.id"
               :span="item.type === 'doubleDate' || item.type === 'doubleDateTime' ? colSpan*2 : colSpan"
-              :class="item.className || ''"
             >
               <!-- multipleSelect -->
               <el-form-item
                 v-if="item.type === 'multipleSelect'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-select
                   v-model="value[item.id]"
@@ -64,7 +62,6 @@
               <el-form-item
                 v-if="item.type === 'upload'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-row :gutter="20">
                   <el-col
@@ -104,7 +101,6 @@
               <el-form-item
                 v-if="item.type === 'input'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-input
                   v-model="value[item.id]"
@@ -117,7 +113,6 @@
               <el-form-item
                 v-if="item.type === 'select'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-select
                   v-model="value[item.id]"
@@ -137,7 +132,6 @@
               <el-form-item
                 v-if="item.type === 'search'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-input
                   v-model="value[item.id]"
@@ -162,7 +156,6 @@
               <el-form-item
                 v-if="item.type === 'formatDate'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-date-picker
                   v-model="value[item.id]"
@@ -177,7 +170,6 @@
               <el-form-item
                 v-if="item.type === 'date'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-date-picker
                   v-model="value[item.id]"
@@ -192,7 +184,6 @@
               <el-form-item
                 v-if="item.type === 'datetime'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-date-picker
                   v-model="value[item.id]"
@@ -207,7 +198,6 @@
               <el-form-item
                 v-if="item.type === 'doubleSplitDateTime'"
                 :label="item.name"
-                :prop="item.id+''"
               >
                 <el-date-picker
                   v-model="value[item.id]"
@@ -366,11 +356,6 @@ export default {
       default: function () {
         return {}
       }
-    },
-    // 查询消息提示
-    queryMessage: {
-      type: Boolean,
-      default: true
     }
   },
   data () {
@@ -389,7 +374,6 @@ export default {
       valueObj: {},
       // false: 收起更多查询, true: 展开更多查询
       deploy: false,
-      showQueryMessage: null,
       // false: 显示查询重置按钮, true: 隐藏查询重置按钮
       hiddenQueryBtn: false,
       // 切换按钮 记录condition的查询条件和展开收起
@@ -503,13 +487,6 @@ export default {
       deep: true,
       handler (val) {
         this.initData()
-      }
-    },
-    '$store.state.common.showQueryMessage' (val) {
-      if (val) {
-        this.showQueryMessage = this.$message({ message: this.$t('common.queryMessage'), duration: 0, customClass: 'query-message' })
-      } else if (this.showQueryMessage instanceof Object) {
-        this.showQueryMessage.close()
       }
     }
   },
@@ -754,62 +731,55 @@ export default {
 
       // 点击查询收起页面 隐藏
       // if (this.showMore) this.deploy = false
-      let conditions = { start: 0, conditions: [] }
-      _.each(this.hiddenQueryDefault, (value, key) => {
-        conditions.conditions.push({ name: key, value: value })
-      })
-      for (let item of this.domData) {
-        if (this.queryOptions.length > 0 && !this.queryOptions.includes(item.id)) continue
-        let value = this.value[item.id]
-        // 导入查询
-        if (item.type === 'upload' && this.$method.isNotEmpty(this.fileMd5)) {
-          conditions.conditions.push({ name: this.fileMd5Key, value: this.fileMd5 })
-          continue
-        }
-        // 条件查询
-        if (this.$method.isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
-          // 特殊处理年类型的日期
-          if (item.dateType === 'year') value = value.substr(0, 4)
-          // 特殊处理search类型显示name查询时使用id或其他
-          if (item.type === 'search' && this.$method.isNotEmpty(item.queryModel)) {
-            let obj = this.valueObj[item.id]
-            if (Array.isArray(obj)) {
-              // 多选的数据
-              value = []
-              for (let v of obj) {
-                value.push(v[item.queryModel])
+      let conditions = {
+        start: 0,
+        conditions: [] }
+      if (this.radioDefault === 'condition') {
+        _.each(this.hiddenQueryDefault, (value, key) => {
+          conditions.conditions.push({ name: key, value: value })
+        })
+        for (let item of this.domData) {
+          let value = this.value[item.id]
+          if (this.$method.isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
+            // 特殊处理年类型的日期
+            if (item.dateType === 'year') value = value.substr(0, 4)
+            // 特殊处理search类型显示name查询时使用id或其他
+            if (item.type === 'search' && this.$method.isNotEmpty(item.queryModel)) {
+              let obj = this.valueObj[item.id]
+              if (Array.isArray(obj)) {
+                // 多选的数据
+                value = []
+                for (let v of obj) {
+                  value.push(v[item.queryModel])
+                }
+              } else if (typeof (obj) === 'object') {
+                // 单选的数据
+                value = obj[item.queryModel]
               }
-            } else if (typeof (obj) === 'object') {
-              // 单选的数据
-              value = obj[item.queryModel]
             }
-          }
-          // 特殊处理doubleDateTime类型 变为beginTime和endTime或自定义字段名
-          if (item.type === 'doubleDateTime' && value.length === 2 && Array.isArray(item.model)) {
-            conditions.conditions.push({ name: item.model[0], value: value[0] })
-            conditions.conditions.push({ name: item.model[1], value: value[1] })
-            continue
-          } else if (item.type === 'doubleDateTime' && value.length === 2) {
-            conditions.conditions.push({ name: 'beginTime', value: value[0] })
-            conditions.conditions.push({ name: 'endTime', value: value[1] })
-            continue
-          }
-          // 特殊处理doubleDate类型 变为startDate和endDate
-          if (item.type === 'doubleDate' && value.length === 2) {
-            conditions.conditions.push({ name: 'startDate', value: value[0] })
-            conditions.conditions.push({ name: 'endDate', value: value[1] })
-            continue
-          }
+            // 特殊处理doubleDateTime类型 变为beginTime和endTime
+            if (item.type === 'doubleDateTime' && value.length === 2) {
+              conditions.conditions.push({ name: 'beginTime', value: value[0] })
+              conditions.conditions.push({ name: 'endTime', value: value[1] })
+              continue
+            }
+            // 特殊处理doubleDate类型 变为startDate和endDate
+            if (item.type === 'doubleDate' && value.length === 2) {
+              conditions.conditions.push({ name: 'startDate', value: value[0] })
+              conditions.conditions.push({ name: 'endDate', value: value[1] })
+              continue
+            }
 
-          if (Array.isArray(value)) {
-            value = value.join()
+            if (Array.isArray(value)) {
+              value = value.join()
+            }
+            conditions.conditions.push({ name: item.model, value: value })
           }
-          conditions.conditions.push({ name: item.model, value: value })
         }
+      } else if (this.radioDefault === 'import') {
+        conditions.conditions.push({ name: this.fileMd5Key, value: this.fileMd5 })
       }
       this.$emit('query', conditions)
-      // 打开查询消息提示
-      this.queryMessage && this.$store.commit('common/setQueryMessage', true)
     },
     selectChange (item, value) {
       this.$emit('selectChange', item.model, value)

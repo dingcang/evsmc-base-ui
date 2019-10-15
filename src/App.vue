@@ -1,9 +1,12 @@
 <template>
   <div id="app">
     <el-scrollbar>
+      <img src="/logo.png">
       <left-menu class="menu" />
     </el-scrollbar>
-    <router-view />
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 

@@ -14,8 +14,8 @@
       >
         <el-col :span="12">
           <el-input
-            :placeholder="$t('common.searchText')"
             v-model="searchText"
+            :placeholder="$t('common.searchText')"
             :maxlength="64"
             size="mini"
             prefix-icon="el-icon-search"
@@ -28,7 +28,9 @@
             type="primary"
             size="small"
             @click="searchMap"
-          >{{ $t('common.lookFor') }}</el-button>
+          >
+            {{ $t('common.lookFor') }}
+          </el-button>
         </el-col>
       </el-row>
       <div class="margin-bottom20" />
@@ -62,7 +64,9 @@
             size="small"
             style="display: block; margin: 43px auto 0"
             @click="save"
-          >{{ $t('common.confirm') }}</el-button>
+          >
+            {{ $t('common.confirm') }}
+          </el-button>
         </el-col>
       </el-row>
     </div>
@@ -89,7 +93,7 @@ export default {
     },
     coordinateData: {
       type: Object,
-      default: () => {}
+      default: () => { }
     }
   },
   data () {
@@ -159,7 +163,7 @@ export default {
               }
             }.bind(this))
             // eslint-disable-next-line
-            }.bind(this))
+          }.bind(this))
           .on('complete', function () {
             this.mapMarker = new AMap.Marker({
               visible: false,
@@ -253,20 +257,20 @@ export default {
 </script>
 
 <style scoped>
-  .content {
-    max-height: 520px;
-    height: 50vh;
-  }
-  .coordinate-container {
-    width: 100%;
-    height: 350px;
-    overflow: hidden;
-  }
-  #coordinate {
-    width: 100%;
-    height: 367px;
-  }
-  .el-dialog__wrapper >>> .text-align-center.margin-top20.margin-bottom20 {
-    margin: 0;
-  }
+.content {
+  max-height: 520px;
+  height: 50vh;
+}
+.coordinate-container {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+#coordinate {
+  width: 100%;
+  height: 367px;
+}
+.el-dialog__wrapper >>> .text-align-center.margin-top20.margin-bottom20 {
+  margin: 0;
+}
 </style>

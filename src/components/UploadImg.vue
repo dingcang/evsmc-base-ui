@@ -19,8 +19,7 @@
       <i class="el-icon-plus" />
       <div
         slot="tip"
-        style="width: 90%"
-        class="el-upload__tip detail-text"
+        class="el-upload__tip"
       >
         {{ tip }}
       </div>
@@ -34,7 +33,7 @@
 </template>
 
 <script>
-// import * as config from '../api/config'
+import * as config from '../api/config'
 
 import ShowImage from '@/components/ShowImage'
 export default {
@@ -58,6 +57,13 @@ export default {
       type: String,
       default: ''
     },
+    // 限制上传图片的宽高
+    limitWith: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
     options: {
       type: Object,
       default: function () {
@@ -77,7 +83,7 @@ export default {
       // 图片地址
       srcId: '',
       // 上传图片的地址
-      uploadUrl: '',
+      uploadUrl: config.uploadImg,
       // 图片的ids
       imageIds: [],
       // 记录旧的image
@@ -111,16 +117,13 @@ export default {
     imageIds: {
       handler (val) {
         let ids = []
-        let names = []
         for (let item of val) {
           ids.push(item.id)
-          names.push(item.name)
         }
         for (let item of this.oldImageIds) {
           ids.push(item.id)
-          names.push(item.name)
         }
-        this.$emit('save', ids.join(','), names.join(','))
+        this.$emit('save', ids.join(','))
       },
       immediate: true
     }
@@ -128,10 +131,13 @@ export default {
   methods: {
     // 上传成功
     uploadSuccess (resp, file, fileList) {
-      this.imageIds.push({ id: resp.data, url: file.url, name: file.name })
+      this.imageIds.push({ id: resp.data, url: file.url })
     },
     // 上传前校验
     beforeUpload (file, fileList) {
+      if (this.limitWith.length !== 0) {
+        return this.checkWidth(file)
+      }
       let mess = this.$t('common.uploadImageTip')
       let err = this.checkTypeAndSize(file)
       if (err) {
@@ -153,6 +159,21 @@ export default {
       this.oldImageIds.splice(oldIndex, 1)
       let index = this.imageIds.findIndex(item => item.url === file.url)
       this.imageIds.splice(index, 1)
+    },
+    checkWidth (file) {
+      return new Promise((resolve, reject) => {
+        let img = new Image()
+        let _URL = window.URL || window.webkitURL
+        img.src = _URL.createObjectURL(file)
+        img.onload = () => {
+          if (img.width <= this.limitWith[0] && img.height <= this.limitWith[1]) {
+            resolve()
+          } else {
+            this.$message.warning(this.$t('interNumber.uploadLimit') + this.limitWith[0] + '*' + this.limitWith[1])
+            reject(Error('sizelimit'))
+          }
+        }
+      })
     },
     // 检查图片类型及大小 jpg/png  小于5Mb
     checkTypeAndSize (file) {

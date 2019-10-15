@@ -2,10 +2,13 @@
   <div
     v-loading="load"
     class="xy-container"
-    element-loading-background="rgba(0, 0, 0, 0.5)">
+    element-loading-background="rgba(0, 0, 0, 0.5)"
+  >
     <div class="xy-page">
       <el-row class="margin-bottom10">
-        <el-col :span="24"><span class="xy-left-title">{{ options.title }}</span></el-col>
+        <el-col :span="24">
+          <span class="xy-left-title">{{ options.title }}</span>
+        </el-col>
       </el-row>
       <div class="xy-content">
         <slot name="content" />

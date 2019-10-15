@@ -112,9 +112,9 @@
 </template>
 
 <script>
-// import { socket, subjectSocket } from '../eventbus'
+import { socket, subjectSocket } from '../eventbus'
 
-import DialogHead from '@/components/DialogHead'
+import DialogHead from '../components/DialogHead'
 export default {
   name: 'ImportFile',
   components: {
@@ -201,29 +201,29 @@ export default {
   methods: {
     // 订阅监听ws
     listenSocket () {
-      // this.pageSocket = subjectSocket.subscribe(
-      //   (msg) => {
-      //     // console.log(msg)
-      //     if (msg.resourceType === this.options.type) {
-      //       if (this.$method.isNotEmpty(msg.message)) {
-      //         this.msgText = this.msgText + msg.message + '\r\n'
-      //       }
-      //       if (msg.data > 0) {
-      //         this.percentage = msg.data
-      //       }
-      //     }
-      //   },
-      //   (err) => console.log(err),
-      //   () => console.log('complete')
-      // )
+      this.pageSocket = subjectSocket.subscribe(
+        (msg) => {
+          // console.log(msg)
+          if (msg.resourceType === this.options.type) {
+            if (this.$method.isNotEmpty(msg.message)) {
+              this.msgText = this.msgText + msg.message + '\r\n'
+            }
+            if (msg.data > 0) {
+              this.percentage = msg.data
+            }
+          }
+        },
+        (err) => console.log(err),
+        () => console.log('complete')
+      )
     },
     // 导入/更新
     begin () {
       // 判断ws断开则出提示信息
-      // if (socket.readyState !== 1) {
-      //   this.$message.error(this.$t('common.webSocketDisConnect'))
-      //   return
-      // }
+      if (socket.readyState !== 1) {
+        this.$message.error(this.$t('common.webSocketDisConnect'))
+        return
+      }
       // 判断是否是一个文件
       if (this.fileList.length !== 1) {
         let mess = this.$t('common.importFileTip')

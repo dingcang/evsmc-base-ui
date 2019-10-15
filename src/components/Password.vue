@@ -6,11 +6,13 @@
       :placeholder="options.placeholder"
       :size="options.size"
       autocomplete="off"
-      type="password">
+      type="password"
+    >
       <i
         slot="suffix"
         class="hand el-input__icon el-icon-view"
-        @click="hidden = false"/>
+        @click="hidden = false"
+      />
     </el-input>
     <el-input
       v-else
@@ -18,11 +20,13 @@
       :placeholder="options.placeholder"
       :size="options.size"
       autocomplete="off"
-      type="text">
+      type="text"
+    >
       <i
         slot="suffix"
         class="hand el-input__icon el-icon-view"
-        @click="hidden = true"/>
+        @click="hidden = true"
+      />
     </el-input>
   </div>
 </template>

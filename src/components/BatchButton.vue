@@ -192,3 +192,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.inline-style{
+  display:inline-block
+}
+</style>

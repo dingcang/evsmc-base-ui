@@ -92,8 +92,6 @@
               ref="query"
               :options="queryOptions"
               :query-dom="options.queryColumn"
-              :query-default="options.queryDefault"
-              @queryCallBack="queryCallBack"
               @query="query"
               @reset="reset"
             />
@@ -209,8 +207,7 @@ export default {
           limitSelected: 0,
 
           // 组件的页脚按钮
-          footerButtons: [],
-          queryDefault: {}
+          footerButtons: []
         }
       }
     },
@@ -424,16 +421,7 @@ export default {
           // 多选选中
           this.$refs.dialogGrid.selectionCheck(this.realSelectedTags, this.gridData)
         }
-        // 回传查询列表
-        if (!params) this.$emit('getGridData', resp)
       })
-    },
-    queryCallBack (index, row) {
-      this.$emit('queryCallBack', index, row)
-    },
-    // 弹出框值回写
-    setOpenDialogValue (data) {
-      this.$refs.query.setOpenDialogValue(data)
     },
     // 重置
     reset () {

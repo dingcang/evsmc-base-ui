@@ -25,8 +25,6 @@
         @select="selectedChange"
         @select-all="selectedAllChange"
         @selection-change="handleSection"
-        @sort-change="handleSort"
-        @filter-change="handleFilter"
       >
         <!-- 单选 -->
         <el-table-column
@@ -70,9 +68,7 @@
               :align="item.kind === 'moreTitle' ? 'center' : 'left'"
               :sortable="item.sort"
               :filters="item.filter"
-              :column-key="item.columnKey ? item.columnKey : item.prop"
               :filter-method="item.filterTag"
-              :filter-multiple="item.multiple"
               max-width="424px"
               size="mini"
               show-overflow-tooltip
@@ -287,7 +283,6 @@
               :prop="item.prop"
               :label="item.label"
               :fixed="item.fixed"
-              :formatter="item.formatter"
               :min-width="item.width ? item.width : item.label.length*20 + 'px'"
               :align="item.kind === 'moreTitle' ? 'center' : 'left'"
               :sortable="item.sort"
@@ -459,12 +454,6 @@
                     {{ secondGridText(scope.row, item) }}
                   </span>
                 </span>
-                <!-- formatter -->
-                <span v-if="item.kind === 'formatter'">
-                  <span>
-                    {{ item.formatter(scope.row) }}
-                  </span>
-                </span>
                 <!-- judge -->
                 <span v-if="item.kind === 'judge'">
                   <span
@@ -510,7 +499,7 @@
         <!--操作-->
         <el-table-column
           v-if="showOperationColumn()"
-          :label="options.optionsName ? options.optionsName : $t('common.operation')"
+          :label="$t('common.operation')"
           :width="operationWidth"
           :fixed="options.operationFixed"
         >
@@ -531,7 +520,7 @@
                   <el-button
                     v-else
                     :type="item.btnType ? item.btnType : 'primary'"
-                    :size="item.size ? item.size : 'mini'"
+                    size="mini"
                     @click.stop="gridCallBack(item.type, scope.row)"
                   >
                     <i :class="item.icon ? 'fa margin-right5 ' + item.icon : ''" />
@@ -705,13 +694,12 @@
 </template>
 
 <script>
-import Copy from '@/components/Copy'
 import ShowImage from '@/components/ShowImage'
 
 export default {
   name: 'Grid',
   components: {
-    Copy, ShowImage // eslint-disable-line
+    ShowImage
   },
   // 双向绑定单选和多选结果
   model: {
@@ -777,7 +765,7 @@ export default {
         // 表头显示隐藏 默认显示
         showHeader: true,
         // 表格加载动画遮罩
-        tableLoading: true,
+        tableLoading: false,
         // 单选显示隐藏,固定,宽度,默认选中值-1为不选中
         radioSelection: false,
         radioFixed: false,
@@ -789,8 +777,6 @@ export default {
         checkboxWidth: 35,
         // 显示按钮在操作下拉菜单 外展示
         outShowBtn: false,
-        // 是否启用行点击事件
-        rowClickEnable: true,
         // 分页
         pageable: true,
         diyPageable: false,
@@ -817,7 +803,7 @@ export default {
       // 隐藏显示图片
       showBigImage: false,
       // 表格空数据提示
-      emptyText: ' ',
+      emptyText: this.$t('common.noDataTip'),
       // 合并单元格参数
       mergeCellsData: {}
     }
@@ -858,6 +844,11 @@ export default {
         this.emptyText = this.$t('common.noDataTip')
       }
     },
+    'gridOptions.tableLoading': {
+      handler (v) {
+        this.options.tableLoading = v
+      }
+    },
     // 监控表格列变化
     gridColumn: function (v) {
       this.tableColumn = []
@@ -865,8 +856,6 @@ export default {
     },
     // 监控表格数据变化实时赋值
     gridData: function (value) {
-      // 关闭查询消息提示
-      this.$store.commit('common/setQueryMessage', false)
       this.setData(value)
       this.options.pagination = Object.assign({}, this.gridOptions.pagination)
       this.$set(this.options, 'pageable', this.gridOptions.pagination.limit !== -1)
@@ -900,9 +889,9 @@ export default {
     },
     // 设置表格数据
     setData (data) {
-      this.options.tableLoading = true
+      // this.options.tableLoading = true
       this.tableData.splice(0, this.tableData.length, ...data)
-      this.options.tableLoading = false
+      // this.options.tableLoading = false
     },
     // 设置列显示隐藏
     setColumnDisplay (columns) {
@@ -932,12 +921,6 @@ export default {
     // 手动选择多选时变化
     selectedChange (checked, row) {
       this.$emit('selectedChange', checked, row)
-    },
-    handleSort (data) {
-      this.$emit('handleSort', data)
-    },
-    handleFilter (data) {
-      this.$emit('handleFilter', data)
     },
     selectedAllChange (rows) {
       this.$emit('selectedAllChange', rows)
@@ -988,7 +971,6 @@ export default {
     },
     // 行单击
     rowClick (row, column) {
-      if (!this.options.rowClickEnable) return
       // 单选时
       if (this.options.radioSelection) {
         this.selections[0] = row
@@ -1198,12 +1180,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  >>> .el-table-column--selection .cell{
+<style>
+  .el-table-column--selection .cell{
     text-overflow: initial !important;
-  }
-  /* element-ui的bug，固定列会遮挡横向滚动条，要改变窗口尺寸才能恢复正常，所以要重写它的高度 */
-  >>> .el-table__fixed {
-    height: calc(100% - 10px) !important;
   }
 </style>

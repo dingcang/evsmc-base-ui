@@ -93,8 +93,7 @@
                     <el-checkbox
                       v-model="ruleForm.allHours"
                       class="margin-right5"
-                    />
-                    {{ $t("components.24HoursADay") }}
+                    />{{ $t('components.24HoursADay') }}
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -195,8 +194,7 @@
                       <el-checkbox
                         v-model="ruleForm2.allHours"
                         class="margin-right5"
-                      />
-                      {{ $t("components.24HoursADay") }}
+                      />{{ $t('components.24HoursADay') }}
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -216,7 +214,7 @@
               size="mini"
               @click="save"
             >
-              {{ $t("common.confirm") }}
+              {{ $t('common.confirm') }}
             </el-button>
           </el-col>
         </el-row>
@@ -227,7 +225,7 @@
 
 <script>
 import dayjs from 'dayjs'
-import DialogHead from '@/components/DialogHead.vue'
+import DialogHead from '@/components/DialogHead'
 
 export default {
   name: 'Interval',
@@ -272,34 +270,10 @@ export default {
       },
       // 表单校验规则
       rules: {
-        startDate: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ],
-        endDate: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ],
-        startTime: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ],
-        endTime: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ]
+        startDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+        endDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+        startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+        endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
       },
       labelPosition: 'left',
       labelWidth: '110px',
@@ -310,20 +284,15 @@ export default {
 
       // 循环执行
       // 周期类型
-      periodType: [
-        { value: 1, label: this.$t('components.weeklyCycle') },
-        { value: 2, label: this.$t('components.dailyCirculation') }
-      ],
+      periodType: [{ value: 1, label: this.$t('components.weeklyCycle') }, { value: 2, label: this.$t('components.dailyCirculation') }],
       // 启用星期
-      weeks: [
-        { value: 1, label: this.$t('components.one') },
+      weeks: [{ value: 1, label: this.$t('components.one') },
         { value: 2, label: this.$t('components.two') },
         { value: 3, label: this.$t('components.three') },
         { value: 4, label: this.$t('components.four') },
         { value: 5, label: this.$t('components.five') },
         { value: 6, label: this.$t('components.six') },
-        { value: 7, label: this.$t('components.seven') }
-      ],
+        { value: 7, label: this.$t('components.seven') }],
       // 表单
       ruleForm2: {
         periodType: 1,
@@ -334,46 +303,18 @@ export default {
       },
       // 表单校验规则
       rules2: {
-        periodType: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ],
-        week: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ],
-        startTime: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ],
-        endTime: [
-          {
-            required: true,
-            message: this.$t('common.required'),
-            trigger: 'blur'
-          }
-        ]
+        periodType: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+        week: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+        startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+        endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
       }
     }
   },
   computed: {
     // 弹窗隐藏显示
     visible: {
-      get: function () {
-        return this.show
-      },
-      set: function (v) {
-        this.$emit('changeVal', v)
-      }
+      get: function () { return this.show },
+      set: function (v) { this.$emit('changeVal', v) }
     },
     disableTime () {
       return this.ruleForm.allHours
@@ -385,10 +326,7 @@ export default {
       return this.activeTab === '0' ? 'ruleForm' : 'ruleForm2'
     },
     unWeek () {
-      return (
-        (this.activeTab === '1' && this.ruleForm2.periodType === 2) ||
-        this.activeTab === '0'
-      )
+      return (this.activeTab === '1' && this.ruleForm2.periodType === 2) || this.activeTab === '0'
     }
   },
   watch: {
@@ -404,11 +342,7 @@ export default {
             return
           }
           this.activeTab = this.data.tabId
-          this[this.formName] = Object.assign(
-            {},
-            this[this.formName],
-            this.data.data
-          )
+          this[this.formName] = Object.assign({}, this[this.formName], this.data.data)
         }
       }
     },
@@ -418,51 +352,15 @@ export default {
           this.ruleForm.startTime = ''
           this.ruleForm.endTime = ''
           this.rules = {
-            startDate: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ],
-            endDate: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ]
+            startDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+            endDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
           }
         } else {
           this.rules = {
-            startDate: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ],
-            endDate: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ],
-            startTime: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ],
-            endTime: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ]
+            startDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+            endDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+            startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+            endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
           }
         }
         this.$nextTick(function () {
@@ -476,47 +374,17 @@ export default {
           this.ruleForm2.startTime = ''
           this.ruleForm2.endTime = ''
           this.rules2 = {
-            periodType: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ]
+            periodType: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
           }
         } else {
           this.rules2 = {
-            periodType: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ],
-            startTime: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ],
-            endTime: [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ]
+            periodType: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+            startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
+            endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
           }
         }
         if (!this.unWeek) {
-          this.$set(this.rules2, 'week', [
-            {
-              required: true,
-              message: this.$t('common.required'),
-              trigger: 'blur'
-            }
-          ])
+          this.$set(this.rules2, 'week', [{ required: true, message: this.$t('common.required'), trigger: 'blur' }])
         }
         this.$nextTick(function () {
           this.$refs.ruleForm2.clearValidate()
@@ -531,13 +399,7 @@ export default {
           }
         } else {
           if (!this.rules2.week) {
-            this.$set(this.rules2, 'week', [
-              {
-                required: true,
-                message: this.$t('common.required'),
-                trigger: 'blur'
-              }
-            ])
+            this.$set(this.rules2, 'week', [{ required: true, message: this.$t('common.required'), trigger: 'blur' }])
           }
         }
         this.$nextTick(function () {
@@ -549,14 +411,10 @@ export default {
   methods: {
     save () {
       // 校验表单
-      // if (!this.$method.validateFrom(this.$refs[this.formName])) return
+      if (!this.$method.validateFrom(this.$refs[this.formName])) return
       if (!this.validateForm()) return
       // 设置返回数据结构, tabId为单次执行或循环执行 '0'/'1', data为表单数据
-      let data = {
-        tabId: this.activeTab,
-        data: this[this.formName],
-        tip: this.$t('common.alreadySet')
-      }
+      let data = { tabId: this.activeTab, data: this[this.formName], tip: this.$t('common.alreadySet') }
       if (this.activeTab === '0') {
         data.data.type = 1
       } else {
@@ -573,19 +431,13 @@ export default {
     validateForm () {
       let success = true
       if (this.formName === 'ruleForm') {
-        if (
-          dayjs(this.ruleForm.startDate).isAfter(dayjs(this.ruleForm.endDate))
-        ) {
+        if (dayjs(this.ruleForm.startDate).isAfter(dayjs(this.ruleForm.endDate))) {
           this.$message.error(this.$t('components.startDateLessEndDateTip'))
           success = false
         }
       }
       if (!this[this.formName].allHours && success) {
-        if (
-          dayjs('2018-1-1' + this[this.formName].startTime).isAfter(
-            dayjs('2018-1-1' + this[this.formName].endTime)
-          )
-        ) {
+        if (dayjs('2018-1-1' + this[this.formName].startTime).isAfter(dayjs('2018-1-1' + this[this.formName].endTime))) {
           this.$message.error(this.$t('components.startTimeLessEndTimeTip'))
           success = false
         }

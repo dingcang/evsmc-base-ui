@@ -321,6 +321,7 @@ export default {
     },
     // 关闭
     close () {
+      this.$set(this.$refs.treeDialog._data, 'filterText', '')
       this.visible = false
       this.$emit('close')
     }
