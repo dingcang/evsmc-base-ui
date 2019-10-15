@@ -33,5 +33,8 @@ module.exports = {
       vuex: 'Vuex',
       'element-ui': 'ELEMENT'
     }
+  },
+  css: {
+    extract: false
   }
 }
