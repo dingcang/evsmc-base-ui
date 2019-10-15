@@ -17,8 +17,10 @@ npm install evsmc-base-ui -S
 
 ``` javascript
 import Vue from 'vue'
+import Element from 'element-ui'
 import EvsmcBaseUi from 'evsmc-base-ui'
 
+Vue.use(Element)
 Vue.use(EvsmcBaseUi)
 
 // or
@@ -26,7 +28,7 @@ import {
   Add,
   BatchButton
   // ...
-} from 'element-ui'
+} from 'evsmc-base-ui'
 
 Vue.use(Add)
 Vue.use(BatchButton)
