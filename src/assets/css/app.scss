@@ -15,6 +15,9 @@ body {
   min-width: 1000px;
   margin: 0 auto;
   display: flex;
+  .logo {
+    padding-left: 20px;
+  }
   .menu {
     width: 220px;
     height: 100%;

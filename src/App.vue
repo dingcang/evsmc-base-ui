@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <el-scrollbar>
-      <img src="/logo.png">
+      <img
+        class="logo"
+        src="/logo.png"
+      >
       <left-menu class="menu" />
     </el-scrollbar>
     <main>
