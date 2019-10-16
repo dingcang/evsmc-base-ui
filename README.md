@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://sm.ms/image/dhjbI64lBYgPMiA" target="_blank"><img src="https://i.loli.net/2019/10/15/dhjbI64lBYgPMiA.png" ></a>
+  <a href="https://sm.ms/image/k7zEVeyoObY364D" target="_blank"><img src="https://i.loli.net/2019/10/16/k7zEVeyoObY364D.png" ></a>
 </p>
 
 <p align="center">
