@@ -1,6 +1,6 @@
 {
   "name": "evsmc-base-ui",
-  "version": "0.2.0-alpha",
+  "version": "0.2.2-alpha",
   "description": "A Components Library For Bitnei's evsmc-ui",
   "scripts": {
     "serve": "vue-cli-service serve",

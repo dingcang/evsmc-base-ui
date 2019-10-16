@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/npm-0.2.0_alpha-green"/>
+  <img src="https://img.shields.io/badge/npm-0.2.2_alpha-green"/>
   <img src="https://img.shields.io/badge/license-MIT-green"/>
 </p>
 
