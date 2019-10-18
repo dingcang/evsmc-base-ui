@@ -10,7 +10,9 @@
       </el-scrollbar>
     </nav>
     <main>
-      <router-view />
+      <el-scrollbar>
+        <router-view />
+      </el-scrollbar>
     </main>
   </div>
 </template>
