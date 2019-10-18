@@ -97,8 +97,8 @@ export default {
       // 根据多种条件显示不同字
       // judge example number {key: 'sex', condition: 1, showText: '男'}, {key: 'sex', condition: 2, showText: '女'}, {key: 'sex', condition: 3, showText: '无'}
       gridColumn: [
-        { kind: 'link', prop: 'name', label: this.$t('common.name') },
-        { kind: 'link', prop: 'address', width: '400', label: this.$t('common.address') },
+        { kind: 'link', prop: 'name', label: this.$t('common.name'), width: '400px' },
+        { kind: 'link', prop: 'address', label: this.$t('common.address'), width: '200px' },
         { kind: 'text', prop: 'description', label: this.$t('common.description') },
         { kind: 'moreTitle',
           label: '多级表头',

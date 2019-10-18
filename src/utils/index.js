@@ -26,7 +26,17 @@ let isEmpty = function (val) {
   return false
 }
 
+// region zqq
+// 校验表单
+let validateFrom = function (form) {
+  let validate = false
+  form.validate((valid) => { validate = valid })
+  return validate
+}
+// regionend
+
 Vue.prototype.$method = {
   isNotEmpty,
-  isEmpty
+  isEmpty,
+  validateFrom
 }

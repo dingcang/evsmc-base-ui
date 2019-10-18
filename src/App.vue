@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <el-scrollbar>
-      <img
-        class="logo"
-        src="/logo.png"
-      >
-      <left-menu class="menu" />
-    </el-scrollbar>
+    <nav>
+      <el-scrollbar>
+        <img
+          class="logo"
+          src="/logo.png"
+        >
+        <left-menu class="menu" />
+      </el-scrollbar>
+    </nav>
     <main>
       <router-view />
     </main>

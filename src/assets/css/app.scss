@@ -15,16 +15,23 @@ body {
   min-width: 1000px;
   margin: 0 auto;
   display: flex;
+  & > nav {
+    width: 257px;
+    height: 100%;
+    .el-scrollbar {
+      height: 100%;
+    }
+  }
   .logo {
     padding-left: 20px;
   }
-  .menu {
-    width: 220px;
-    height: 100%;
-    margin-right: 60px;
-  }
+  // .menu {
+  //   width: 220px;
+  //   height: 100%;
+  // }
   main {
     flex: 1;
     padding-left: 20px;
+    box-sizing: border-box;
   }
 }
