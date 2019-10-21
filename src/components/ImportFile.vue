@@ -275,7 +275,8 @@ export default {
     },
     // 下载错误数据表
     downloadTable () {
-      this.$method.downLoadFile(this.$method.judgeExportPath('getRecordFile'), '', this.options.type)
+      this.$emit('downloadTable')
+      // this.$method.downLoadFile(this.$method.judgeExportPath('getRecordFile'), '', this.options.type)
     },
     // 下载错误报告
     downloadError () {
