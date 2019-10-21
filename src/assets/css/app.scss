@@ -22,6 +22,9 @@ body {
       height: 100%;
       width: 100%;
       overflow: hidden;
+      .el-scrollbar__wrap{
+        overflow-x: hidden;
+      }
       .logo {
         padding-left: 20px;
       }

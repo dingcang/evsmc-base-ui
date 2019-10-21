@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-menu mode="horizontal">
+    <el-menu mode="vertical">
       <el-menu-item
         v-for="item in menu"
         :key="item.id"

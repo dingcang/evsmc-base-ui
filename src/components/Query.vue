@@ -809,9 +809,8 @@ export default {
     downLoadTemplate () {
       if (this.$method.isEmpty(this.options.importTemplateUrl)) {
         this.$message.error(this.$t('common.pleaseSetSearchTemplateUrl'))
-        return
       }
-      this.$method.downLoadFile(this.$method.judgeExportPath(this.options.importTemplateUrl, this.options.isCustom))
+      this.$method.downLoadFile(this.options.importTemplatePath)
     },
     // 清空值
     cleanValue () {

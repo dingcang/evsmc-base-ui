@@ -7,6 +7,7 @@ import './utils'
 import './utils/hasButtonPermission'
 
 import '@/assets/css/app.scss'
+import '@/assets/css/common.scss'
 
 Vue.config.productionTip = false
 

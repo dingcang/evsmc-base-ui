@@ -184,7 +184,7 @@ export default {
         // 设置显示的 标题 查询按钮 action地址 下载按钮
         this.dialogOption.title = this.options.title || this.$t('common.import')
         this.btnText = this.options.btnText || this.$t('common.beginImport')
-        this.actionUrl = this.$method.judgeExportPath(this.options.action, this.options.isCustom)
+        this.actionUrl = this.options.importTemplatePath
         this.showDownLoad = this.options.showDownLoad || false
         this.reset()
       }
