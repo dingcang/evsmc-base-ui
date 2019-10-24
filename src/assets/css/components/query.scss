@@ -1,0 +1,60 @@
+/* 查询组件 */
+.xy-query-container {
+  // 条件查询 导入查询
+  .xy-query-radio {
+    margin: 5px 0;
+    .el-radio__label {
+      color: #000;
+    }
+  }
+  .xy-query-box {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding-top: 5px;
+    .el-form-item__label {
+      font-size: 12px;
+      color: #676767;
+    }
+    // 查询列
+    .xy-query-content {
+      width: 100%;
+      min-width: 550px;
+      .el-select{
+        width: 100%
+      }
+      .el-form-item--mini .el-form-item__label {
+        line-height: 10px;
+      }
+      .el-form-item--mini.el-form-item {
+        margin-bottom: 16px;
+      }
+      .column-flex {
+        align-items: flex-end;
+      }
+      .column-query {
+        text-align: left;
+      }
+    }
+  }
+  // 设置日期时间框宽度
+  .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: 100%
+  }
+
+  // label和输入框间距
+  .el-form--label-top .el-form-item__label {
+    padding: 0 0 3px 0;
+  }
+
+  // 分割线
+  .query-line {
+    border-bottom: 1px solid rgba(233,233,239,1);
+    margin-bottom: 19px;
+    padding-bottom: 3px;
+  }
+}
+/* 查询提示框固定顶部偏移量，否则多个提示框时会看到多个，目标时看到一个 */
+.query-message {
+  top: 30px !important;
+}

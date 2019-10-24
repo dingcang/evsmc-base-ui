@@ -2,7 +2,7 @@
   <div class="xy-query-container">
     <!-- 单选 条件查询或导入查询 -->
     <div
-      v-show="showRadio"
+      v-show="radioOptions.show"
       class="xy-query-radio"
     >
       <el-radio
@@ -51,10 +51,10 @@
                   multiple
                 >
                   <el-option
-                    v-for="item in item.data"
-                    :key="item.value"
-                    :label="item.name"
-                    :value="item.value"
+                    v-for="innerItem in item.data"
+                    :key="innerItem.value"
+                    :label="innerItem.name"
+                    :value="innerItem.value"
                   />
                 </el-select>
               </el-form-item>
@@ -317,7 +317,6 @@
 <script>
 import * as config from '@/api/config'
 import dayjs from 'dayjs'
-import _ from 'underscore'
 
 export default {
   name: 'Query',
@@ -387,7 +386,7 @@ export default {
           { type: 'condition', name: this.$t('common.conditionQuery') },
           { type: 'import', name: this.$t('common.importQuery') }
         ],
-        // 单选默认查询条件
+        // 单选默认查询条件 condition/import
         default: 'condition',
         // 显示隐藏单选按钮
         show: false
@@ -441,18 +440,10 @@ export default {
       let span = parseInt(totalSpan / this.colNum)
       return span
     },
-    // 显示单选按钮
-    showRadio () {
-      return this.radioOptions.show
-    },
-    // 单选按钮选中的值 undefined condition import
-    radioDefault () {
-      return this.radioOptions.default
-    },
     // 显示的dom元素
     queryOptions () {
-      let conditionArr = _.isUndefined(this.radioOptions.condition) ? [] : this.radioOptions.condition
-      let importArr = _.isUndefined(this.radioOptions.import) ? [] : this.radioOptions.import
+      let conditionArr = this.radioOptions.condition === undefined ? [] : this.radioOptions.condition
+      let importArr = this.radioOptions.import === undefined ? [] : this.radioOptions.import
       if (this.radioOptions.default === 'import') return importArr
       return conditionArr
     },
@@ -478,7 +469,7 @@ export default {
       }
     },
     // 切换单选按钮时,记录新的值，赋值旧的值
-    radioDefault: function (value) {
+    'radioOptions.default': function () {
       this.setDomShow()
     },
     // 监视查询列变化
@@ -597,17 +588,14 @@ export default {
     },
     // 设置要显示的dom元素
     setDomShow () {
-      this.domData = []
-      let that = this
       let allShow = false
       if (this.queryOptions.length === 0) allShow = true
-      _.each(this.queryDom, (row) => {
+      this.domData = this.queryDom.map(row => {
         row.show = true
         if (!allShow) {
-          let hide = this.queryOptions.findIndex(item => item === row.id)
-          if (hide === -1) row.show = false
+          row.show = this.queryOptions.findIndex(item => item === row.id) !== -1
         }
-        that.domData.push(row)
+        return row
       })
       // 设置行
       this.setRowData()
@@ -642,24 +630,24 @@ export default {
     },
     // 添加默认值属性
     addDefault (params) {
-      _.each(params, (value, key) => {
+      for (const key in params) {
         // 添加默认属性
-        this.$set(this.default, key, value)
+        this.$set(this.default, key, params[key])
         // 添加初始显示dom值
-        this.$set(this.value, key, value)
-        if (this.showRadio) {
+        this.$set(this.value, key, params[key])
+        if (this.radioOptions.show) {
           // 记录condition值
-          this.$set(this.conditionRecord, key, value)
+          this.$set(this.conditionRecord, key, params[key])
           // 记录import值
-          this.$set(this.importRecord, key, value)
+          this.$set(this.importRecord, key, params[key])
         }
-      })
+      }
     },
     // 添加显示值属性
     addValue (params) {
-      _.each(params, (value, key) => {
-        this.$set(this.value, key, value)
-      })
+      for (const key in params) {
+        this.$set(this.value, key, params[key])
+      }
     },
     // 打开弹出框
     openSelect (id) {
@@ -734,10 +722,10 @@ export default {
       let conditions = {
         start: 0,
         conditions: [] }
-      if (this.radioDefault === 'condition') {
-        _.each(this.hiddenQueryDefault, (value, key) => {
-          conditions.conditions.push({ name: key, value: value })
-        })
+      if (this.radioOptions.default === 'condition') {
+        for (const key in this.hiddenQueryDefault) {
+          conditions.conditions.push({ name: key, value: this.hiddenQueryDefault[key] })
+        }
         for (let item of this.domData) {
           let value = this.value[item.id]
           if (this.$method.isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
@@ -776,7 +764,7 @@ export default {
             conditions.conditions.push({ name: item.model, value: value })
           }
         }
-      } else if (this.radioDefault === 'import') {
+      } else if (this.radioOptions.default === 'import') {
         conditions.conditions.push({ name: this.fileMd5Key, value: this.fileMd5 })
       }
       this.$emit('query', conditions)
@@ -796,7 +784,7 @@ export default {
       this.valueObj = {}
       this.addValue(this.default)
       // 如果是导入查询模式 清空已设置的值
-      if (this.radioDefault === 'import') {
+      if (this.radioOptions.default === 'import') {
         this.fileName = ''
         this.fileMd5 = ''
       }
@@ -820,3 +808,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import "@/assets/css/components/query.scss";
+</style>
