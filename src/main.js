@@ -1,16 +1,20 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/'
+import router from './router'
 import store from './store'
 import i18n from './i18n'
+import Element from './index'
 import './utils'
 import './utils/hasButtonPermission'
 
 import '@/assets/css/app.scss'
 import '@/assets/css/common.scss'
 
-Vue.config.productionTip = false
+import { uploadImportSearchFile } from '@/api/config'
 
+Vue.use(Element, {
+  uploadImportSearchFile
+})
 new Vue({
   router,
   store,

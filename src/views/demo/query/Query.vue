@@ -6,13 +6,6 @@
     >
       <el-col :span="24">
         <span style="color: red"> Tip: 查询组件，包含收起 展开 查询 重置 弹出框回填 延迟设置默认数据等功能 </span>
-        <el-button
-          size="mini"
-          type="primary"
-          @click="showApi = true"
-        >
-          查看API
-        </el-button>
       </el-col>
     </el-row>
     <!--
@@ -51,15 +44,11 @@
         @save="dialogSave"
       />
     </div>
-    <api-introduction
-      v-model="showApi"
-      :property="propertyList"
-    />
+    <api-introduction :property="propertyList" />
   </div>
 </template>
 
 <script>
-import Query from '@/components/Query'
 import SelectAge from './components/SelectAge'
 import SelectDescription from './components/SelectDescription'
 import ApiIntroduction from '@/components/ApiIntroduction'
@@ -67,7 +56,7 @@ import ApiIntroduction from '@/components/ApiIntroduction'
 export default {
   name: 'QueryDemo',
   components: {
-    Query, SelectAge, SelectDescription, ApiIntroduction
+    SelectAge, SelectDescription, ApiIntroduction
   },
   data: function () {
     return {
@@ -213,10 +202,10 @@ export default {
       // 选中的多选或单选
       searchSelected: {},
 
-      showApi: false,
       propertyList: [
-        { key: 'options', value: '查询组件的配置项(后续可扩展),没有导入查询可不配置', type: 'Object', default: '' },
+        { key: 'options', value: '查询组件的配置项(后续可扩展),没有导入查询可不配置', type: 'Object', default: '{}' },
         { key: ' - importTemplateUrl', value: '导入模板下载地址名称', type: 'String', default: '' },
+        { key: ' - uploadImportSearchFile', value: '上传文件地址,用来代替初始化插件时配置项的uploadImportSearchFile', type: 'String', default: '' },
         { key: ' - isCustom', value: '是否定制化', type: 'Boolean', default: 'false' },
         { key: ' - unQuery', value: '设置重置时不查询', type: 'Boolean', default: 'false' },
         { key: ' - colNum', value: '设置一行几列', type: 'Number', default: '4' },

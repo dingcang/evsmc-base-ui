@@ -1,5 +1,4 @@
-import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers('common')
+const { mapGetters } = Vuex.createNamespacedHelpers('common')
 // 获取element-ui版本从node_modules
 const version = '2.6.3'
 // 系统默认颜色

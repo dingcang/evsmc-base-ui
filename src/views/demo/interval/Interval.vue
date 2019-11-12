@@ -46,14 +46,12 @@
 <script>
 import Interval from '@/components/Interval'
 import ApiIntroduction from '@/components/ApiIntroduction'
-import Query from '@/components/Query'
 
 export default {
   name: 'IntervalDemo',
   components: {
     Interval,
-    ApiIntroduction,
-    Query
+    ApiIntroduction
   },
   data () {
     return {

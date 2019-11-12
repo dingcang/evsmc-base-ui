@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <el-dialog
-      :visible.sync="visible"
-      :before-close="close"
-      width="1000px"
-      title="查看API"
-    >
+  <el-container>
+    <el-header>
+      <h3>查看API</h3>
+    </el-header>
+    <el-main>
       <el-table
         :data="property"
         border
@@ -14,7 +12,7 @@
         <el-table-column
           prop="key"
           label="属性"
-          width="180"
+          width="200"
         />
         <el-table-column
           prop="type"
@@ -31,40 +29,20 @@
           label="描述"
         />
       </el-table>
-    </el-dialog>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
 export default {
   name: 'ApiIntroduction',
-  // 隐藏显示属性
-  model: {
-    prop: 'showApi',
-    event: 'changeVal'
-  },
   // api详情
   props: {
-    showApi: {
-      type: Boolean,
-      default: false
-    },
     property: {
       type: Array,
       default: function () {
         return []
       }
-    }
-  },
-  computed: {
-    visible: {
-      get: function () { return this.showApi },
-      set: function (v) { this.$emit('changeVal', v) }
-    }
-  },
-  methods: {
-    close () {
-      this.visible = false
     }
   }
 }

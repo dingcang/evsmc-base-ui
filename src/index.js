@@ -30,6 +30,8 @@ import treeGridDetailForm from '@/components/TreeGridDetailForm'
 import treeGridHead from '@/components/TreeGridHead'
 // import uploadImg from '@/components/UploadImg'
 
+import locale from '@/locale'
+
 const components = [
   addOrEdit,
   batchButton,
@@ -232,11 +234,20 @@ export const TreeGridHead = {
 //   }
 // }
 
+function install (Vue, options = {}) {
+  locale.use(options.locale)
+  locale.i18n(options.i18n)
+  components.forEach(component => {
+    Vue.component(component.name, component)
+  })
+  Vue.component('edit', addOrEdit)
+
+  Vue.prototype.$xyConfig = options
+}
+
 export default {
-  install (Vue) {
-    components.forEach(component => {
-      Vue.component(component.name, component)
-    })
-    Vue.component('edit', addOrEdit)
-  }
+  version: '',
+  locale: locale.use,
+  i18n: locale.i18n,
+  install
 }

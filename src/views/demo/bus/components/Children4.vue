@@ -15,19 +15,18 @@
 </template>
 
 <script>
-  import {createNamespacedHelpers} from 'vuex'
-  const {mapGetters} = createNamespacedHelpers('demo')
+const { mapGetters } = Vuex.createNamespacedHelpers('demo')
 
-  export default {
-    name: 'Children4Demo',
-    computed: {
-      // 批量注册getters
-      ...mapGetters([
-        'data',
-        'name',
-        'sex',
-        'info'
-      ])
-    }
+export default {
+  name: 'Children4Demo',
+  computed: {
+    // 批量注册getters
+    ...mapGetters([
+      'data',
+      'name',
+      'sex',
+      'info'
+    ])
   }
+}
 </script>

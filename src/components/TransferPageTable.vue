@@ -143,15 +143,9 @@
 </template>
 
 <script>
-import Query from '@/components/Query'
-import Grid from '@/components/Grid'
 
 export default {
   name: 'TransferPageTable',
-  components: {
-    Query,
-    Grid
-  },
   // 弹窗 隐藏/显示
   model: {
     prop: 'show',

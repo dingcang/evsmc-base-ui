@@ -1,9 +1,9 @@
 <template>
-  <div class="xy-query-container">
+  <div class="xy-query">
     <!-- 单选 条件查询或导入查询 -->
     <div
-      v-show="radioOptions.show"
-      class="xy-query-radio"
+      v-if="radioOptions.show"
+      class="el-query-mode"
     >
       <el-radio
         v-for="item in radioOptions.data"
@@ -26,7 +26,7 @@
         <div class="xy-query-content">
           <el-row
             v-for="(row, index) in rowData"
-            v-show="deploy || index===0"
+            v-show="expand || index===0"
             :key="index"
             :gutter="16"
             type="flex"
@@ -255,10 +255,10 @@
                   <el-col :span="4">
                     <el-button
                       v-show="showMore"
-                      :icon="deploy ? 'fa-angle-double-up' : 'fa-angle-double-down'"
+                      :icon="expand ? 'fa-angle-double-up' : 'fa-angle-double-down'"
                       type="text"
                       class="fa "
-                      @click="deploy = !deploy"
+                      @click="expand = !expand"
                     />
                   </el-col>
                   <el-col :span="20">
@@ -287,10 +287,10 @@
                 <div class="column-query">
                   <el-button
                     v-show="showMore"
-                    :icon="deploy ? 'fa-angle-double-up' : 'fa-angle-double-down'"
+                    :icon="expand ? 'fa-angle-double-up' : 'fa-angle-double-down'"
                     type="text"
                     class="fa "
-                    @click="deploy = !deploy"
+                    @click="expand = !expand"
                   />
                   <el-button
                     type="primary"
@@ -315,7 +315,6 @@
 </template>
 
 <script>
-import * as config from '@/api/config'
 import dayjs from 'dayjs'
 
 export default {
@@ -372,7 +371,7 @@ export default {
       // 单选或多选对象记录
       valueObj: {},
       // false: 收起更多查询, true: 展开更多查询
-      deploy: false,
+      expand: false,
       // false: 显示查询重置按钮, true: 隐藏查询重置按钮
       hiddenQueryBtn: false,
       // 切换按钮 记录condition的查询条件和展开收起
@@ -403,7 +402,7 @@ export default {
       // 上传成功的文件的md5值
       fileMd5: '',
       // 上传地址
-      actionUrl: config.uploadImportSearchFile,
+      actionUrl: this.options.uploadImportSearchFile || this.$xyConfig.uploadImportSearchFile || '',
       // 日期时间区间设置 带快捷键
       datePickerOptions: {
         shortcuts: [{
@@ -436,9 +435,7 @@ export default {
   },
   computed: {
     colSpan () {
-      let totalSpan = this.deploy ? 24 : 20
-      let span = parseInt(totalSpan / this.colNum)
-      return span
+      return parseInt((this.expand ? 24 : 20) / this.colNum)
     },
     // 显示的dom元素
     queryOptions () {
@@ -458,13 +455,9 @@ export default {
       immediate: true,
       deep: true,
       handler (val) {
-        if (val.deploy) this.deploy = true
-        if (val.hiddenQueryBtn) this.hiddenQueryBtn = true
-        if (this.$method.isNotEmpty(val.colNum)) this.colNum = val.colNum
-        if (this.$method.isEmpty(val.radio)) {
-          this.radioOptions = Object.assign({}, this.defaultRadioOptions)
-          return
-        }
+        this.expand = !!val.deploy || !!val.expand
+        this.hiddenQueryBtn = !!val.hiddenQueryBtn
+        if (typeof val.colNum === 'number') this.colNum = val.colNum
         this.radioOptions = Object.assign({}, this.defaultRadioOptions, val.radio)
       }
     },
@@ -489,10 +482,10 @@ export default {
       this.datePickerOptions.shortcuts[2].text = this.$t('common.lastWeek')
     },
     rightShowDeploy (index) {
-      return index === 0 && !this.deploy
+      return index === 0 && !this.expand
     },
     bottomShowDeploy (index) {
-      return this.rowData.length === index + 1 && this.deploy
+      return this.rowData.length === index + 1 && this.expand
     },
     // 月份 或其他类型时间校验过滤
     checkFormatTypeDate (item, val) {
@@ -718,7 +711,7 @@ export default {
       if (!this.$method.validateFrom(this.$refs['queryRuleForm'])) return
 
       // 点击查询收起页面 隐藏
-      // if (this.showMore) this.deploy = false
+      // if (this.showMore) this.expand = false
       let conditions = {
         start: 0,
         conditions: [] }
