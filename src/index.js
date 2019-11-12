@@ -246,7 +246,7 @@ function install (Vue, options = {}) {
 }
 
 export default {
-  version: '',
+  version: '0.2.2-beta',
   locale: locale.use,
   i18n: locale.i18n,
   install
