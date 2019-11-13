@@ -32,8 +32,11 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
+
 export default {
   name: 'Password',
+  mixins: [Locale],
   // 值
   model: {
     prop: 'value',
@@ -49,7 +52,7 @@ export default {
       default: function () {
         return {
           size: 'small',
-          placeholder: this.$t('user.passwordTip')
+          placeholder: this.t('user.passwordTip')
         }
       }
     }

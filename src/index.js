@@ -237,12 +237,41 @@ export const TreeGridHead = {
 function install (Vue, options = {}) {
   locale.use(options.locale)
   locale.i18n(options.i18n)
+
   components.forEach(component => {
     Vue.component(component.name, component)
   })
   Vue.component('edit', addOrEdit)
 
-  Vue.prototype.$xyConfig = options
+  const defaultOptions = {
+    column: 2,
+    formSize: 'small',
+    span: 12,
+    gutter: 100,
+    labelPosition: 'top',
+    // 弹窗大小
+    miniDialogWidth: '450px',
+    miniDialogInnerWidth: '400px',
+    smallDialogWidth: '650px',
+    smallDialogInnerWidth: '600px',
+    dialogWidth: '850px',
+    dialogInnerWidth: '800px',
+    bigDialogWidth: '1150px',
+    bigDialogInnerWidth: '1100px',
+
+    // 菜单列隐藏显示
+    hiddenGridColumn: [],
+
+    uploadImportSearchFile: ''
+  }
+
+  Vue.prototype.$xyConfig = new Vue({
+    data () {
+      return {
+        ...Object.assign(defaultOptions, options)
+      }
+    }
+  })
 }
 
 export default {

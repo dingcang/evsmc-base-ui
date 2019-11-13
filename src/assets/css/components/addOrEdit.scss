@@ -1,0 +1,33 @@
+/* 操作页面 新增 编辑*/
+.xy-addOrEdit {
+  position: relative;
+  // 表头左侧
+  .xy-left-title {
+    line-height: 26px;
+    font-size: 120%;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: top;
+  }
+  // 表头右侧
+  .xy-right-title {
+    font-size: 14px;
+    line-height: 1.8em;
+    display: inline-block;
+    vertical-align: top;
+  }
+  // 正文
+  .xy-content {
+    border-top: 1px solid #eee;
+    padding: 32px 40px 32px 40px;
+    .el-col-12 {
+      height: 70px;
+    }
+    .el-col-8 {
+      height: 70px;
+    }
+    .image-height {
+      height: 132px;
+    }
+  }
+}

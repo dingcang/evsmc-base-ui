@@ -499,7 +499,7 @@
         <!--操作-->
         <el-table-column
           v-if="showOperationColumn()"
-          :label="$t('common.operation')"
+          :label="t('common.operation')"
           :width="operationWidth"
           :fixed="options.operationFixed"
         >
@@ -539,7 +539,7 @@
                 type="text"
                 @click.stop
               >
-                {{ $t('common.operation') }}<i class="el-icon-arrow-down el-icon--right" />
+                {{ t('common.operation') }}<i class="el-icon-arrow-down el-icon--right" />
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item
@@ -570,11 +570,11 @@
         >
           <!-- 共-条 -->
           <span class="base-tip-size margin-right10">
-            {{ $t('common.paginationTotalStart') }}
+            {{ t('common.paginationTotalStart') }}
             <span class="pagination-total">
               {{ options.pagination.total }}
             </span>
-            {{ $t('common.paginationTotalEnd') }}
+            {{ t('common.paginationTotalEnd') }}
           </span>
         </div>
         <slot
@@ -591,11 +591,11 @@
         <div class="rg-pagination">
           <!-- 共-条 -->
           <span class="base-tip-size margin-right10">
-            {{ $t('common.paginationTotalStart') }}
+            {{ t('common.paginationTotalStart') }}
             <span class="pagination-total">
               {{ options.pagination.total }}
             </span>
-            {{ $t('common.paginationTotalEnd') }}
+            {{ t('common.paginationTotalEnd') }}
           </span>
           <!-- 每页条数-->
           <el-select
@@ -607,7 +607,7 @@
             <el-option
               v-for="size in options.limitList"
               :key="size"
-              :label="size + $t('common.paginationPageSize')"
+              :label="size + t('common.paginationPageSize')"
               :value="size"
             />
           </el-select>
@@ -621,14 +621,14 @@
           />
           <!-- 前往-页 -->
           <div class="base-tip-size pagination-jump">
-            {{ $t('common.paginationJumpStart') }}
+            {{ t('common.paginationJumpStart') }}
             <el-input
               v-model="options.pagination.jumper"
               type="text"
               size="mini"
               @keyup.enter.native="currentChange(options.pagination.jumper)"
             />
-            {{ $t('common.page') }}
+            {{ t('common.page') }}
           </div>
           <!-- 首页 -->
           <el-button
@@ -637,7 +637,7 @@
             size="mini"
             @click="first"
           >
-            {{ $t('common.paginationFirst') }}
+            {{ t('common.paginationFirst') }}
           </el-button>
           <!-- 上一页 -->
           <el-button
@@ -646,7 +646,7 @@
             size="mini"
             @click="currentChange(options.pagination.page - 1)"
           >
-            {{ $t('common.paginationPrevious') }}
+            {{ t('common.paginationPrevious') }}
           </el-button>
           <!-- 当前页 -->
           <span
@@ -662,7 +662,7 @@
             size="mini"
             @click="currentChange(options.pagination.page + 1)"
           >
-            {{ $t('common.paginationNext') }}
+            {{ t('common.paginationNext') }}
           </el-button>
           <!-- 尾页 -->
           <el-button
@@ -671,16 +671,16 @@
             size="mini"
             @click="last"
           >
-            {{ $t('common.paginationLast') }}
+            {{ t('common.paginationLast') }}
           </el-button>
           <!-- 共-页-->
           <span
             v-if="false"
             class="base-tip-size"
           >
-            {{ $t('common.paginationTotalStart') }}
+            {{ t('common.paginationTotalStart') }}
             {{ options.pagination.pageTotal }}
-            {{ $t('common.page') }} |
+            {{ t('common.page') }} |
           </span>
         </div>
       </div>
@@ -694,6 +694,7 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 import ShowImage from '@/components/ShowImage'
 
 export default {
@@ -701,6 +702,7 @@ export default {
   components: {
     ShowImage
   },
+  mixins: [Locale],
   // 双向绑定单选和多选结果
   model: {
     prop: 'selects',
@@ -803,7 +805,7 @@ export default {
       // 隐藏显示图片
       showBigImage: false,
       // 表格空数据提示
-      emptyText: this.$t('common.noDataTip'),
+      emptyText: this.t('common.noDataTip'),
       // 合并单元格参数
       mergeCellsData: {}
     }
@@ -841,7 +843,7 @@ export default {
       if (v) {
         this.emptyText = ' '
       } else {
-        this.emptyText = this.$t('common.noDataTip')
+        this.emptyText = this.t('common.noDataTip')
       }
     },
     'gridOptions.tableLoading': {
@@ -963,7 +965,7 @@ export default {
     cellDbClick (row, column, cell) {
       /* let copyText = cell.innerText
         this.$method.copyToClipboard(copyText)
-        let copied = this.$t('common.copiedMessage')
+        let copied = this.t('common.copiedMessage')
         this.$message({
           message: copied,
           type: 'success'
@@ -1123,7 +1125,7 @@ export default {
       // 输入数字校验
       let reg = /^[0-9]+$/
       if (!reg.test(page)) {
-        let mess = this.$t('common.pleaseInputRightPage')
+        let mess = this.t('common.pleaseInputRightPage')
         this.$message.warning(mess)
         return false
       }
@@ -1131,7 +1133,7 @@ export default {
 
       // 校验小于1的页数退出
       if (this.$method.isEmpty(page) || page < 1) {
-        let mess = this.$t('common.pleaseInputRightPage')
+        let mess = this.t('common.pleaseInputRightPage')
         this.$message.warning(mess)
         return false
       }
@@ -1141,7 +1143,7 @@ export default {
       if (page === oldCurrent) return false
       // 校验大于最大页数退出
       if (page > this.options.pagination.pageTotal) {
-        let mess = this.$t('common.pleaseInputRightPage')
+        let mess = this.t('common.pleaseInputRightPage')
         this.$message.warning(mess)
         return false
       }

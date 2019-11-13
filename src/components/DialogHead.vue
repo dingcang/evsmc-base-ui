@@ -101,20 +101,20 @@ export default {
       handler (v) {
         switch (v) {
           case 'mini':
-            this.dialogWidth = this.$store.state.common.miniDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.miniDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.miniDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.miniDialogInnerWidth
             break
           case 'small':
-            this.dialogWidth = this.$store.state.common.smallDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.smallDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.smallDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.smallDialogInnerWidth
             break
           case 'big':
-            this.dialogWidth = this.$store.state.common.bigDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.bigDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.bigDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.bigDialogInnerWidth
             break
           default:
-            this.dialogWidth = this.$store.state.common.dialogWidth
-            this.dialogInnerWidth = this.$store.state.common.dialogInnerWidth
+            this.dialogWidth = this.$xyConfig.dialogWidth
+            this.dialogInnerWidth = this.$xyConfig.dialogInnerWidth
         }
       },
       immediate: true

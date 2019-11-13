@@ -1,112 +1,108 @@
 <template>
-  <div>
-    <div>
-      <el-row
-        :gutter="10"
-        class="margin-bottom20"
+  <el-row
+    :gutter="10"
+    class="margin-bottom20"
+  >
+    <el-col :span="16">
+      <div
+        v-for="(item, index) in buttonList"
+        :key="index"
+        class="margin-right5"
+        style="display: inline-block"
       >
-        <el-col :span="16">
-          <div
-            v-for="(item, index) in buttonList"
-            :key="index"
-            class="margin-right5 inline-style"
+        <!-- 单个按钮 -->
+        <el-button
+          v-if="showSingleBtn(item)"
+          :type="btnType(item)"
+          size="mini"
+          @click="handleButton(item.type)"
+        >
+          <i :class="$method.isNotEmpty(item.icon) ? 'fa margin-right5 ' + item.icon : 'display-none'" />
+          {{ item.name }}
+        </el-button>
+        <!-- 下拉列表显示的配置 -->
+        <el-dropdown
+          v-if="showDropDownBtn(item)"
+        >
+          <el-button
+            size="mini"
+            type="primary"
           >
-            <!-- 单个按钮 -->
-            <el-button
-              v-if="showSingleBtn(item)"
-              :type="btnType(item)"
-              size="mini"
-              @click="handleButton(item.type)"
+            <!--<i :class="$method.isNotEmpty(item.icon) ? 'fa margin-right5 ' + item.icon : 'display-none'" />-->
+            {{ item.name }}
+            <i class="el-icon-arrow-down el-icon--right" />
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item
+              v-for="(item2,index) in item.data"
+              v-if="showDropDownItem(item2)"
+              :key="index"
+              @click.native="handleButton(item2.type)"
             >
-              <i :class="$method.isNotEmpty(item.icon) ? 'fa margin-right5 ' + item.icon : 'display-none'" />
-              {{ item.name }}
-            </el-button>
-            <!-- 下拉列表显示的配置 -->
-            <el-dropdown
-              v-if="showDropDownBtn(item)"
-            >
-              <el-button
-                size="mini"
-                type="primary"
-              >
-                <!--<i :class="$method.isNotEmpty(item.icon) ? 'fa margin-right5 ' + item.icon : 'display-none'" />-->
-                {{ item.name }}
-                <i class="el-icon-arrow-down el-icon--right" />
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(item2,index) in item.data"
-                  v-if="showDropDownItem(item2)"
-                  :key="index"
-                  @click.native="handleButton(item2.type)"
-                >
-                  <span>
-                    <!--<i :class="$method.isNotEmpty(item2.icon) ? 'fa margin-right5 ' + item2.icon : 'display-none'" />-->
-                    {{ item2.name }}
-                  </span>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+              <span>
+                <!--<i :class="$method.isNotEmpty(item2.icon) ? 'fa margin-right5 ' + item2.icon : 'display-none'" />-->
+                {{ item2.name }}
+              </span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
 
-            <!-- text类型按钮-->
-            <el-button
-              v-if="showTextBtn(item)"
-              :type="btnType(item)"
-              size="mini"
-              @click="handleButton(item.type)"
-            >
-              <i :class="$method.isNotEmpty(item.icon) ? 'fa margin-left20 margin-right5 ' + item.icon : 'display-none'" />
-              {{ item.name }}
-            </el-button>
-          </div>
+        <!-- text类型按钮-->
+        <el-button
+          v-if="showTextBtn(item)"
+          :type="btnType(item)"
+          size="mini"
+          @click="handleButton(item.type)"
+        >
+          <i :class="$method.isNotEmpty(item.icon) ? 'fa margin-left20 margin-right5 ' + item.icon : 'display-none'" />
+          {{ item.name }}
+        </el-button>
+      </div>
           <!-- 空格占位 当按钮为空时 -->
           &nbsp;
-        </el-col>
-        <el-col
-          :span="8"
+    </el-col>
+    <el-col
+      :span="8"
+    >
+      <div class="text-align-right">
+        <span
+          v-for="(item, index) in buttonList"
+          :key="index"
+          class="xy-button-item"
         >
-          <div class="text-align-right">
-            <span
-              v-for="(item, index) in buttonList"
-              :key="index"
-              class="xy-button-item"
-            >
-              <!-- 按钮显示的配置 -->
-              <el-button
-                v-if="item.right"
-                size="mini"
-                type="text"
-                class="margin-right10"
-                @click="handleButton(item.type)"
-              >
-                <i :class="$method.isNotEmpty(item.icon) ? 'fa margin-right5 ' + item.icon : 'display-none'" />
-                {{ item.name }}
-              </el-button>
-            </span>
-            <!-- 显示/隐藏列 -->
-            <el-button
-              v-if="options.showDisplay"
-              size="mini"
-              type="text"
-              @click="setColumnDisplay"
-            >
-              {{ $t("common.columnDisplay") }}
-            </el-button>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-    <div>
-      <!-- save为列显示隐藏的保存按钮回调 -->
-      <grid-column-display
-        ref="columnDisplay"
-        @save="saveColumnDisplay"
-      />
-    </div>
-  </div>
+          <!-- 按钮显示的配置 -->
+          <el-button
+            v-if="item.right"
+            size="mini"
+            type="text"
+            class="margin-right10"
+            @click="handleButton(item.type)"
+          >
+            <i :class="$method.isNotEmpty(item.icon) ? 'fa margin-right5 ' + item.icon : 'display-none'" />
+            {{ item.name }}
+          </el-button>
+        </span>
+        <!-- 显示/隐藏列 -->
+        <el-button
+          v-if="options.showDisplay"
+          size="mini"
+          type="text"
+          @click="setColumnDisplay"
+        >
+          {{ t("common.columnDisplay") }}
+        </el-button>
+        <!-- save为列显示隐藏的保存按钮回调 -->
+        <grid-column-display
+          ref="columnDisplay"
+          @save="saveColumnDisplay"
+        />
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 import GridColumnDisplay from '@/components/GridColumnDisplay'
 
 export default {
@@ -114,6 +110,7 @@ export default {
   components: {
     GridColumnDisplay
   },
+  mixins: [Locale],
   props: {
     // 按钮的配置
     buttonOptions: {
@@ -192,8 +189,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.inline-style{
-  display:inline-block
-}
-</style>

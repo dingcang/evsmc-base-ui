@@ -32,7 +32,7 @@
           class="bottom-line"
         >
           <el-col :span="4">
-            <b>{{ $t('common.alreadySelect') }} {{ selectedTagsLength }} {{ $t('common.alreadySelectEnd') }}</b>
+            <b>{{ t('common.alreadySelect') }} {{ selectedTagsLength }} {{ t('common.alreadySelectEnd') }}</b>
           </el-col>
           <el-col
             :span="8"
@@ -40,7 +40,7 @@
           >
             <el-input
               v-model="tagFilter"
-              :placeholder="$t('common.filterText')"
+              :placeholder="t('common.filterText')"
               prefix-icon="el-icon-search"
               size="mini"
             />
@@ -54,7 +54,7 @@
               type="text"
               @click="removeTag()"
             >
-              {{ $t('common.clean') }}
+              {{ t('common.clean') }}
             </el-button>
           </el-col>
         </el-row>
@@ -82,7 +82,7 @@
           class="bottom-line"
         >
           <el-col :span="24">
-            <b>{{ $t('common.unChoose') }}</b>
+            <b>{{ t('common.unChoose') }}</b>
           </el-col>
         </el-row>
         <!-- 查询区域 -->
@@ -132,20 +132,22 @@
           type="primary"
           size="mini"
           @click="save"
-        >{{ $t('common.confirm') }}</el-button>
+        >{{ t('common.confirm') }}</el-button>
         <el-button
           size="mini"
           @click="close"
-        >{{ $t('common.cancel') }}</el-button>
+        >{{ t('common.cancel') }}</el-button>
       </template>
     </span>
   </el-dialog>
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 
 export default {
   name: 'TransferPageTable',
+  mixins: [Locale],
   // 弹窗 隐藏/显示
   model: {
     prop: 'show',
@@ -319,20 +321,20 @@ export default {
       handler (v) {
         switch (v) {
           case 'mini':
-            this.dialogWidth = this.$store.state.common.miniDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.miniDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.miniDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.miniDialogInnerWidth
             break
           case 'small':
-            this.dialogWidth = this.$store.state.common.smallDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.smallDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.smallDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.smallDialogInnerWidth
             break
           case 'big':
-            this.dialogWidth = this.$store.state.common.bigDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.bigDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.bigDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.bigDialogInnerWidth
             break
           default:
-            this.dialogWidth = this.$store.state.common.dialogWidth
-            this.dialogInnerWidth = this.$store.state.common.dialogInnerWidth
+            this.dialogWidth = this.$xyConfig.dialogWidth
+            this.dialogInnerWidth = this.$xyConfig.dialogInnerWidth
         }
       },
       immediate: true

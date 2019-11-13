@@ -18,12 +18,14 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 import DialogHead from './DialogHead'
 export default {
   name: 'ShowImage',
   components: {
     DialogHead
   },
+  mixins: [Locale],
   model: {
     prop: 'show',
     event: 'changeVal'
@@ -42,7 +44,7 @@ export default {
     return {
       options: {
         // 弹窗名称
-        title: this.$t('common.search'),
+        title: this.t('common.search'),
         width: 'normal'
       }
     }

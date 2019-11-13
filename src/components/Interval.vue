@@ -10,7 +10,7 @@
           v-model="activeTab"
           type="border-card"
         >
-          <el-tab-pane :label="$t('components.singleExecution')">
+          <el-tab-pane :label="t('components.singleExecution')">
             <el-form
               ref="ruleForm"
               :model="ruleForm"
@@ -23,12 +23,12 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="$t('components.startDate')"
+                    :label="t('components.startDate')"
                     prop="startDate"
                   >
                     <el-date-picker
                       v-model="ruleForm.startDate"
-                      :placeholder="$t('components.chooseTheStartDate')"
+                      :placeholder="t('components.chooseTheStartDate')"
                       type="date"
                       value-format="yyyy-MM-dd"
                     />
@@ -38,12 +38,12 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="$t('components.endDate')"
+                    :label="t('components.endDate')"
                     prop="endDate"
                   >
                     <el-date-picker
                       v-model="ruleForm.endDate"
-                      :placeholder="$t('components.chooseTheEndDate')"
+                      :placeholder="t('components.chooseTheEndDate')"
                       type="date"
                       value-format="yyyy-MM-dd"
                     />
@@ -53,7 +53,7 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="$t('components.enableStartTime')"
+                    :label="t('components.enableStartTime')"
                     prop="startTime"
                   >
                     <el-time-picker
@@ -70,7 +70,7 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="$t('components.enableEndTime')"
+                    :label="t('components.enableEndTime')"
                     prop="endTime"
                   >
                     <el-time-picker
@@ -93,13 +93,13 @@
                     <el-checkbox
                       v-model="ruleForm.allHours"
                       class="margin-right5"
-                    />{{ $t('components.24HoursADay') }}
+                    />{{ t('components.24HoursADay') }}
                   </el-form-item>
                 </el-col>
               </el-row>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane :label="$t('components.loopExecution')">
+          <el-tab-pane :label="t('components.loopExecution')">
             <el-form
               ref="ruleForm2"
               :model="ruleForm2"
@@ -113,7 +113,7 @@
                 <el-row :gutter="gutter">
                   <el-col :span="span">
                     <el-form-item
-                      :label="$t('components.cycleType')"
+                      :label="t('components.cycleType')"
                       prop="periodType"
                     >
                       <el-select v-model="ruleForm2.periodType">
@@ -133,7 +133,7 @@
                 >
                   <el-col :span="span">
                     <el-form-item
-                      :label="$t('components.openingWeek')"
+                      :label="t('components.openingWeek')"
                       prop="week"
                     >
                       <el-checkbox-group
@@ -154,7 +154,7 @@
                 <el-row :gutter="gutter">
                   <el-col :span="span">
                     <el-form-item
-                      :label="$t('components.enableStartTime')"
+                      :label="t('components.enableStartTime')"
                       prop="startTime"
                     >
                       <el-time-picker
@@ -171,7 +171,7 @@
                 <el-row :gutter="gutter">
                   <el-col :span="span">
                     <el-form-item
-                      :label="$t('components.enableEndTime')"
+                      :label="t('components.enableEndTime')"
                       prop="endTime"
                     >
                       <el-time-picker
@@ -194,7 +194,7 @@
                       <el-checkbox
                         v-model="ruleForm2.allHours"
                         class="margin-right5"
-                      />{{ $t('components.24HoursADay') }}
+                      />{{ t('components.24HoursADay') }}
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -214,7 +214,7 @@
               size="mini"
               @click="save"
             >
-              {{ $t('common.confirm') }}
+              {{ t('common.confirm') }}
             </el-button>
           </el-col>
         </el-row>
@@ -255,7 +255,7 @@ export default {
     return {
       // 弹窗配置项
       dialogOptions: {
-        title: this.$t('components.setupTime'),
+        title: this.t('components.setupTime'),
         width: 'mini'
       },
       // 选中的tab
@@ -270,10 +270,10 @@ export default {
       },
       // 表单校验规则
       rules: {
-        startDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-        endDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-        startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-        endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
+        startDate: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+        endDate: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+        startTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+        endTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }]
       },
       labelPosition: 'left',
       labelWidth: '110px',
@@ -284,15 +284,15 @@ export default {
 
       // 循环执行
       // 周期类型
-      periodType: [{ value: 1, label: this.$t('components.weeklyCycle') }, { value: 2, label: this.$t('components.dailyCirculation') }],
+      periodType: [{ value: 1, label: this.t('components.weeklyCycle') }, { value: 2, label: this.t('components.dailyCirculation') }],
       // 启用星期
-      weeks: [{ value: 1, label: this.$t('components.one') },
-        { value: 2, label: this.$t('components.two') },
-        { value: 3, label: this.$t('components.three') },
-        { value: 4, label: this.$t('components.four') },
-        { value: 5, label: this.$t('components.five') },
-        { value: 6, label: this.$t('components.six') },
-        { value: 7, label: this.$t('components.seven') }],
+      weeks: [{ value: 1, label: this.t('components.one') },
+        { value: 2, label: this.t('components.two') },
+        { value: 3, label: this.t('components.three') },
+        { value: 4, label: this.t('components.four') },
+        { value: 5, label: this.t('components.five') },
+        { value: 6, label: this.t('components.six') },
+        { value: 7, label: this.t('components.seven') }],
       // 表单
       ruleForm2: {
         periodType: 1,
@@ -303,10 +303,10 @@ export default {
       },
       // 表单校验规则
       rules2: {
-        periodType: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-        week: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-        startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-        endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
+        periodType: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+        week: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+        startTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+        endTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }]
       }
     }
   },
@@ -352,15 +352,15 @@ export default {
           this.ruleForm.startTime = ''
           this.ruleForm.endTime = ''
           this.rules = {
-            startDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-            endDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
+            startDate: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+            endDate: [{ required: true, message: this.t('common.required'), trigger: 'blur' }]
           }
         } else {
           this.rules = {
-            startDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-            endDate: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-            startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-            endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
+            startDate: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+            endDate: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+            startTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+            endTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }]
           }
         }
         this.$nextTick(function () {
@@ -374,17 +374,17 @@ export default {
           this.ruleForm2.startTime = ''
           this.ruleForm2.endTime = ''
           this.rules2 = {
-            periodType: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
+            periodType: [{ required: true, message: this.t('common.required'), trigger: 'blur' }]
           }
         } else {
           this.rules2 = {
-            periodType: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-            startTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }],
-            endTime: [{ required: true, message: this.$t('common.required'), trigger: 'blur' }]
+            periodType: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+            startTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }],
+            endTime: [{ required: true, message: this.t('common.required'), trigger: 'blur' }]
           }
         }
         if (!this.unWeek) {
-          this.$set(this.rules2, 'week', [{ required: true, message: this.$t('common.required'), trigger: 'blur' }])
+          this.$set(this.rules2, 'week', [{ required: true, message: this.t('common.required'), trigger: 'blur' }])
         }
         this.$nextTick(function () {
           this.$refs.ruleForm2.clearValidate()
@@ -399,7 +399,7 @@ export default {
           }
         } else {
           if (!this.rules2.week) {
-            this.$set(this.rules2, 'week', [{ required: true, message: this.$t('common.required'), trigger: 'blur' }])
+            this.$set(this.rules2, 'week', [{ required: true, message: this.t('common.required'), trigger: 'blur' }])
           }
         }
         this.$nextTick(function () {
@@ -414,7 +414,7 @@ export default {
       if (!this.$method.validateFrom(this.$refs[this.formName])) return
       if (!this.validateForm()) return
       // 设置返回数据结构, tabId为单次执行或循环执行 '0'/'1', data为表单数据
-      let data = { tabId: this.activeTab, data: this[this.formName], tip: this.$t('common.alreadySet') }
+      let data = { tabId: this.activeTab, data: this[this.formName], tip: this.t('common.alreadySet') }
       if (this.activeTab === '0') {
         data.data.type = 1
       } else {
@@ -432,13 +432,13 @@ export default {
       let success = true
       if (this.formName === 'ruleForm') {
         if (dayjs(this.ruleForm.startDate).isAfter(dayjs(this.ruleForm.endDate))) {
-          this.$message.error(this.$t('components.startDateLessEndDateTip'))
+          this.$message.error(this.t('components.startDateLessEndDateTip'))
           success = false
         }
       }
       if (!this[this.formName].allHours && success) {
         if (dayjs('2018-1-1' + this[this.formName].startTime).isAfter(dayjs('2018-1-1' + this[this.formName].endTime))) {
-          this.$message.error(this.$t('components.startTimeLessEndTimeTip'))
+          this.$message.error(this.t('components.startTimeLessEndTimeTip'))
           success = false
         }
       }

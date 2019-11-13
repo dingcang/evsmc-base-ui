@@ -16,7 +16,7 @@
             v-model="checkAll"
             @change="treeCheckAll"
           >
-            {{ $t('common.allChecked') }}
+            {{ t('common.allChecked') }}
           </el-checkbox>
         </el-col>
         <!-- 已选择和清除按钮 -->
@@ -24,7 +24,7 @@
           :span="6"
           :offset="1"
         >
-          <b>{{ $t('common.alreadySelect') }} {{ selectedTags.length }} {{ $t('common.alreadySelectEnd') }}</b>
+          <b>{{ t('common.alreadySelect') }} {{ selectedTags.length }} {{ t('common.alreadySelectEnd') }}</b>
         </el-col>
         <el-col :span="5">
           <div class="text-align-right">
@@ -33,7 +33,7 @@
               type="text"
               @click="toggleTree([])"
             >
-              {{ $t('common.clean') }}
+              {{ t('common.clean') }}
             </el-button>
           </div>
         </el-col>
@@ -101,8 +101,11 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
+
 export default {
   name: 'TransferTreeTable',
+  mixins: [Locale],
   model: {
     prop: 'selected',
     event: 'changeVal'
@@ -199,7 +202,7 @@ export default {
       // 过滤字段
       filterText: '',
       timer: null,
-      loadText: this.$t('common.loading'),
+      loadText: this.t('common.loading'),
       // 表格空数据提示
       emptyText: ' '
     }
@@ -238,7 +241,7 @@ export default {
       if (v) {
         this.emptyText = ' '
       } else {
-        this.emptyText = this.$t('common.noDataTip')
+        this.emptyText = this.t('common.noDataTip')
       }
     }
   },

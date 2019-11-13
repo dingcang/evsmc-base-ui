@@ -79,7 +79,7 @@
                       <el-input
                         slot="trigger"
                         v-model="fileName"
-                        :placeholder="$t('common.chooseFile')"
+                        :placeholder="t('common.chooseFile')"
                         suffix-icon="el-icon-document"
                       />
                     </el-upload>
@@ -92,7 +92,7 @@
                       @click.native="downLoadTemplate"
                     >
                       <i class="margin-right5 fa fa-download" />
-                      {{ $t('common.queryModuleDownload') }}
+                      {{ t('common.queryModuleDownload') }}
                     </el-button>
                   </el-col>
                 </el-row>
@@ -266,12 +266,12 @@
                       type="primary"
                       @click="query()"
                     >
-                      {{ $t('common.query') }}
+                      {{ t('common.query') }}
                     </el-button>
                     <el-button
                       @click="reset()"
                     >
-                      {{ $t('common.reset') }}
+                      {{ t('common.reset') }}
                     </el-button>
                   </el-col>
                 </el-row>
@@ -296,12 +296,12 @@
                     type="primary"
                     @click="query()"
                   >
-                    {{ $t('common.query') }}
+                    {{ t('common.query') }}
                   </el-button>
                   <el-button
                     @click="reset()"
                   >
-                    {{ $t('common.reset') }}
+                    {{ t('common.reset') }}
                   </el-button>
                 </div>
               </el-form-item>
@@ -315,10 +315,12 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 import dayjs from 'dayjs'
 
 export default {
   name: 'Query',
+  mixins: [Locale],
   props: {
     // 单选配置和其他配置
     options: {
@@ -382,8 +384,8 @@ export default {
       radioOptions: {},
       defaultRadioOptions: {
         data: [
-          { type: 'condition', name: this.$t('common.conditionQuery') },
-          { type: 'import', name: this.$t('common.importQuery') }
+          { type: 'condition', name: this.t('common.conditionQuery') },
+          { type: 'import', name: this.t('common.importQuery') }
         ],
         // 单选默认查询条件 condition/import
         default: 'condition',
@@ -406,7 +408,7 @@ export default {
       // 日期时间区间设置 带快捷键
       datePickerOptions: {
         shortcuts: [{
-          text: this.$t('common.lastDay'),
+          text: this.t('common.lastDay'),
           onClick (picker) {
             const end = new Date()
             const start = new Date()
@@ -414,7 +416,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: this.$t('common.lastThreeDay'),
+          text: this.t('common.lastThreeDay'),
           onClick (picker) {
             const end = new Date()
             const start = new Date()
@@ -422,7 +424,7 @@ export default {
             picker.$emit('pick', [start, end])
           }
         }, {
-          text: this.$t('common.lastWeek'),
+          text: this.t('common.lastWeek'),
           onClick (picker) {
             const end = new Date()
             const start = new Date()
@@ -477,9 +479,9 @@ export default {
   methods: {
     // 设置日期区间快捷键
     setDateRangeShortCut () {
-      this.datePickerOptions.shortcuts[0].text = this.$t('common.lastDay')
-      this.datePickerOptions.shortcuts[1].text = this.$t('common.lastThreeDay')
-      this.datePickerOptions.shortcuts[2].text = this.$t('common.lastWeek')
+      this.datePickerOptions.shortcuts[0].text = this.t('common.lastDay')
+      this.datePickerOptions.shortcuts[1].text = this.t('common.lastThreeDay')
+      this.datePickerOptions.shortcuts[2].text = this.t('common.lastWeek')
     },
     rightShowDeploy (index) {
       return index === 0 && !this.expand
@@ -493,13 +495,13 @@ export default {
       let current = dayjs(new Date()).format('YYYY-MM')
       if (item.dateType === 'month' && item.rules && item.rules.unSelectCurrentMonth) {
         if (dayjs(val).isSame(current)) {
-          this.$message.error(this.$t('common.pleaseSelectLessCurrentMonth'))
+          this.$message.error(this.t('common.pleaseSelectLessCurrentMonth'))
           this.$set(this.value, item.id, '')
         }
       }
 
       if (dayjs(val).isAfter(current)) {
-        this.$message.error(this.$t('common.selectTimeThanCurrentTimeTip'))
+        this.$message.error(this.t('common.selectTimeThanCurrentTimeTip'))
         this.$set(this.value, item.id, '')
       } else {
         // 时间改变时 触发回调事件
@@ -512,13 +514,13 @@ export default {
       if (item.dateType === 'date' && item.rules && item.rules.unSelectToday) {
         let current = dayjs(new Date()).format('YYYY-MM-DD')
         if (dayjs(val).isSame(current)) {
-          this.$message.error(this.$t('common.pleaseSelectLessCurrentDay'))
+          this.$message.error(this.t('common.pleaseSelectLessCurrentDay'))
           this.$set(this.value, item.id, '')
         }
       }
 
       if (dayjs(val).isAfter(dayjs(new Date()))) {
-        this.$message.error(this.$t('common.selectTimeThanCurrentTimeTip'))
+        this.$message.error(this.t('common.selectTimeThanCurrentTimeTip'))
         this.$set(this.value, item.id, '')
       } else {
         // 时间改变时 触发回调事件
@@ -539,7 +541,7 @@ export default {
 
       if (this.$method.isNotEmpty(beginTime) && this.$method.isNotEmpty(endTime)) {
         if (dayjs(beginTime).isAfter(dayjs(endTime))) {
-          this.$message.error(this.$t('common.startTime') + this.$t('common.lessThan') + this.$t('common.endTime'))
+          this.$message.error(this.t('common.startTime') + this.t('common.lessThan') + this.t('common.endTime'))
           this.$set(this.value, item.id, '')
           return
         }
@@ -547,7 +549,7 @@ export default {
         if (this.$method.isNotEmpty(item.dayRange) && this.$method.isNotEmpty(val)) {
           let day = dayjs(endTime).diff(dayjs(beginTime), 'day')
           if (day > item.dayRange) {
-            this.$message.error(this.$t('common.startDateRange') + item.dayRange + this.$t('common.endDateRange'))
+            this.$message.error(this.t('common.startDateRange') + item.dayRange + this.t('common.endDateRange'))
             this.$set(this.value, item.id, '')
           }
         }
@@ -557,7 +559,7 @@ export default {
     checkRangeDate (item, val) {
       if (this.$method.isEmpty(val)) return
       if (val.length === 2 && dayjs(val[1]).isAfter(dayjs(new Date()))) {
-        this.$message.error(this.$t('common.endTimeThanCurrentTimeTip'))
+        this.$message.error(this.t('common.endTimeThanCurrentTimeTip'))
         this.$set(this.value, item.id, '')
         return
       }
@@ -567,7 +569,7 @@ export default {
         let endTime = val[1]
         let day = dayjs(endTime).diff(dayjs(startTime), 'day')
         if (day > item.dayRange) {
-          this.$message.error(this.$t('common.startDateRange') + item.dayRange + this.$t('common.endDateRange'))
+          this.$message.error(this.t('common.startDateRange') + item.dayRange + this.t('common.endDateRange'))
           this.$set(this.value, item.id, '')
         }
       }
@@ -689,7 +691,7 @@ export default {
     // 上传前校验
     beforeUpload (file, fileList) {
       if (this.typeOrSizeError(file)) {
-        let mess = this.$t('common.uploadQueryFileTip')
+        let mess = this.t('common.uploadQueryFileTip')
         this.$message({
           message: mess,
           type: 'warning'
@@ -789,7 +791,7 @@ export default {
     // 下载查询模板
     downLoadTemplate () {
       if (this.$method.isEmpty(this.options.importTemplateUrl)) {
-        this.$message.error(this.$t('common.pleaseSetSearchTemplateUrl'))
+        this.$message.error(this.t('common.pleaseSetSearchTemplateUrl'))
       }
       this.$method.downLoadFile(this.options.importTemplatePath)
     },

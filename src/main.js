@@ -3,16 +3,20 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import i18n from './i18n'
-import Element from './index'
+import BASEUI from './index'
 import './utils'
 import './utils/hasButtonPermission'
+import locale from '@/locale/lang/zh-CN'
+// import locale from '@/locale/lang/en'
 
 import '@/assets/css/app.scss'
 import '@/assets/css/common.scss'
 
 import { uploadImportSearchFile } from '@/api/config'
 
-Vue.use(Element, {
+// ELEMENT.locale(ELEMENT.lang.en)
+Vue.use(BASEUI, {
+  locale,
   uploadImportSearchFile
 })
 new Vue({

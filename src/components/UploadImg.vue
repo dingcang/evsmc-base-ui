@@ -138,7 +138,7 @@ export default {
       if (this.limitWith.length !== 0) {
         return this.checkWidth(file)
       }
-      let mess = this.$t('common.uploadImageTip')
+      let mess = this.t('common.uploadImageTip')
       let err = this.checkTypeAndSize(file)
       if (err) {
         this.$message({
@@ -169,7 +169,7 @@ export default {
           if (img.width <= this.limitWith[0] && img.height <= this.limitWith[1]) {
             resolve()
           } else {
-            this.$message.warning(this.$t('interNumber.uploadLimit') + this.limitWith[0] + '*' + this.limitWith[1])
+            this.$message.warning(this.t('interNumber.uploadLimit') + this.limitWith[0] + '*' + this.limitWith[1])
             reject(Error('sizelimit'))
           }
         }
@@ -182,10 +182,10 @@ export default {
       return !suffixErr || file.size > 5242880
     },
     handleExceed (files, fileList) {
-      this.$message.warning(this.$t('common.uploadLimitTip1') + this.limit +
-          this.$t('common.uploadLimitTip2') + files.length +
-          this.$t('common.uploadLimitTip3') + (files.length + fileList.length) +
-          this.$t('common.uploadLimitTip4'))
+      this.$message.warning(this.t('common.uploadLimitTip1') + this.limit +
+          this.t('common.uploadLimitTip2') + files.length +
+          this.t('common.uploadLimitTip3') + (files.length + fileList.length) +
+          this.t('common.uploadLimitTip4'))
     },
     // 获取图片
     async getImageById (id) {

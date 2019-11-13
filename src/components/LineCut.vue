@@ -185,11 +185,13 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 import _ from 'underscore'
 
 export default {
   name: 'LineCut',
   // 表头字  动态注入的列
+  mixins: [Locale],
   props: {
     options: {
       type: Object,
@@ -288,7 +290,7 @@ export default {
     // 添加一行
     addLine () {
       if (this.lines.length === this.options.maxLength) {
-        this.$message.warning(this.$t('common.maxLimit') + this.options.maxLength + this.$t('common.strip'))
+        this.$message.warning(this.t('common.maxLimit') + this.options.maxLength + this.t('common.strip'))
         return
       }
       this.lines.push(this.makeEmptyLine())

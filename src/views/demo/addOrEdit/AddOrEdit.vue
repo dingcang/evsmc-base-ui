@@ -33,13 +33,11 @@
 </template>
 
 <script>
-import Add from '@/components/AddOrEdit'
 import ApiIntroduction from '@/components/ApiIntroduction'
 
 export default {
   name: 'AddDemo',
   components: {
-    Add,
     ApiIntroduction
   },
   data: function () {

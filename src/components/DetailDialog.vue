@@ -127,7 +127,7 @@ export default {
       // 标题宽度
       labelWidth: '150px',
       // 标题位置
-      labelPosition: this.$store.state.common.labelPosition,
+      labelPosition: this.$xyConfig.labelPosition,
       // 页面展示的列名称和数据
       pageColumn: [],
       pageData: {}
@@ -155,22 +155,22 @@ export default {
         if (this.$method.isEmpty(v)) return
         switch (this.options.width) {
           case 'mini':
-            this.dialogWidth = this.$store.state.common.miniDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.miniDialogWidth
+            this.dialogWidth = this.$xyConfig.miniDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.miniDialogWidth
             // 特殊处理mini型弹窗的 label大小
             this.labelWidth = '50px'
             break
           case 'small':
-            this.dialogWidth = this.$store.state.common.smallDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.smallDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.smallDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.smallDialogInnerWidth
             break
           case 'big':
-            this.dialogWidth = this.$store.state.common.bigDialogWidth
-            this.dialogInnerWidth = this.$store.state.common.bigDialogInnerWidth
+            this.dialogWidth = this.$xyConfig.bigDialogWidth
+            this.dialogInnerWidth = this.$xyConfig.bigDialogInnerWidth
             break
           default:
-            this.dialogWidth = this.$store.state.common.dialogWidth
-            this.dialogInnerWidth = this.$store.state.common.dialogInnerWidth
+            this.dialogWidth = this.$xyConfig.dialogWidth
+            this.dialogInnerWidth = this.$xyConfig.dialogInnerWidth
         }
       },
       immediate: true

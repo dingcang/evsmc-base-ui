@@ -15,7 +15,7 @@
         <el-col :span="12">
           <el-input
             v-model="searchText"
-            :placeholder="$t('common.searchText')"
+            :placeholder="t('common.searchText')"
             :maxlength="64"
             size="mini"
             prefix-icon="el-icon-search"
@@ -29,7 +29,7 @@
             size="small"
             @click="searchMap"
           >
-            {{ $t('common.lookFor') }}
+            {{ t('common.lookFor') }}
           </el-button>
         </el-col>
       </el-row>
@@ -44,7 +44,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <p>{{ $t('common.currentCoordinate') }}</p>
+          <p>{{ t('common.currentCoordinate') }}</p>
           <el-input
             v-model="coordinate"
             size="mini"
@@ -52,7 +52,7 @@
           />
         </el-col>
         <el-col :span="12">
-          <p>{{ $t('common.coordinateReverse') }}</p>
+          <p>{{ t('common.coordinateReverse') }}</p>
           <el-input
             v-model="address"
             size="mini"
@@ -65,7 +65,7 @@
             style="display: block; margin: 43px auto 0"
             @click="save"
           >
-            {{ $t('common.confirm') }}
+            {{ t('common.confirm') }}
           </el-button>
         </el-col>
       </el-row>
@@ -73,13 +73,15 @@
   </dialog-head>
 </template>
 <script>
+import Locale from '@/mixins/locale'
 import DialogHead from '@/components/DialogHead'
 
 export default {
-  name: 'CoordinateDialog',
+  name: 'Coordinate',
   components: {
     DialogHead
   },
+  mixins: [Locale],
   // 弹窗 隐藏/显示
   model: {
     prop: 'show',
@@ -99,7 +101,7 @@ export default {
   data () {
     return {
       options: {
-        title: this.$t('common.coordinate'),
+        title: this.t('common.coordinate'),
         hideFooter: true
       },
       searchText: '',
@@ -158,7 +160,7 @@ export default {
               } else {
                 this.$message({
                   type: 'warning',
-                  message: this.$t('unitInfoManage.coordinateQueryfault')
+                  message: this.t('unitInfoManage.coordinateQueryfault')
                 })
               }
             }.bind(this))
@@ -178,7 +180,7 @@ export default {
                 } else {
                   this.$message({
                     type: 'warning',
-                    message: this.$t('unitInfoManage.coordinateQueryfault')
+                    message: this.t('unitInfoManage.coordinateQueryfault')
                   })
                 }
               }.bind(this))
@@ -220,13 +222,13 @@ export default {
         if (lng > 180 || lng < -180 || !/^-?\d+(\.\d{1,6})?$/.test(lng)) {
           return this.$message({
             type: 'error',
-            message: this.$t('common.lngError')
+            message: this.t('common.lngError')
           })
         }
         if (lat > 90 || lat < -90 || !/^-?\d+(\.\d{1,6})?$/.test(lat)) {
           return this.$message({
             type: 'error',
-            message: this.$t('common.latError')
+            message: this.t('common.latError')
           })
         }
         this.mapMarker.setPosition(new AMap.LngLat(lng, lat))

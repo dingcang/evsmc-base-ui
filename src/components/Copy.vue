@@ -6,7 +6,7 @@
     placement="top"
   >
     <span @click="copy">
-      <i class="fa fa-copy cursor-pointer"><span v-show="description">{{ $t('common.copyToClipboard') }}</span></i>
+      <i class="fa fa-copy cursor-pointer"><span v-show="description">{{ t('common.copyToClipboard') }}</span></i>
     </span>
   </el-tooltip>
 </template>
@@ -28,7 +28,7 @@ export default {
   },
   data () {
     return {
-      copyTip: this.$t('common.copyToClipboard')
+      copyTip: this.t('common.copyToClipboard')
     }
   },
   methods: {
@@ -37,9 +37,9 @@ export default {
       let that = this
       if (!_.isUndefined(text)) this.value = text
       this.$method.copyToClipboard(this.value)
-      this.copyTip = this.$t('common.copied')
+      this.copyTip = this.t('common.copied')
       setTimeout(function () {
-        that.copyTip = that.$t('common.copyToClipboard')
+        that.copyTip = that.t('common.copyToClipboard')
       }, 2000)
     }
   }

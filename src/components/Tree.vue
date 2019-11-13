@@ -23,7 +23,7 @@
       <el-col :span="filterRightSpan">
         <el-input
           v-model="filterText"
-          :placeholder="$t('common.filterText')"
+          :placeholder="t('common.filterText')"
           :maxlength="64"
           size="mini"
           class="margin-bottom10"
@@ -44,7 +44,7 @@
         :default-expanded-keys="options.defaultExpandedKeys"
         :default-checked-keys="options.defaultCheckedKeys"
         :default-expand-all="options.defaultExpandAll"
-        :empty-text="options.emptyText || $t('common.noDataTip')"
+        :empty-text="options.emptyText || t('common.noDataTip')"
         :filter-node-method="filterNode"
         :highlight-current="true"
         :check-on-click-node="true"
@@ -79,8 +79,11 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
+
 export default {
   name: 'Tree',
+  mixins: [Locale],
   props: {
     data: {
       type: Array,
@@ -235,8 +238,8 @@ export default {
       }
       this.$refs.tree.filter(val)
       // 设置显示无数据时的提示文字
-      if (this.$method.isNotEmpty(this.options.emptyText) && this.options.emptyText !== this.$t('common.noDataTip')) {
-        this.options.emptyText = this.$t('common.noDataTip')
+      if (this.$method.isNotEmpty(this.options.emptyText) && this.options.emptyText !== this.t('common.noDataTip')) {
+        this.options.emptyText = this.t('common.noDataTip')
       }
     }
   },

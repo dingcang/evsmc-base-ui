@@ -16,7 +16,7 @@
           <el-col :span="16">
             <!-- 选择文件 -->
             <el-form-item
-              :label="$t('common.chooseFile')"
+              :label="t('common.chooseFile')"
             >
               <el-upload
                 ref="uploadFile"
@@ -33,7 +33,7 @@
                 <el-input
                   slot="trigger"
                   v-model="fileName"
-                  :placeholder="$t('common.importFileTip')"
+                  :placeholder="t('common.importFileTip')"
                   suffix-icon="iconfont icon-refresh-cw"
                 />
               </el-upload>
@@ -53,7 +53,7 @@
               size="small"
               @click="reset"
             >
-              {{ $t('common.reset') }}
+              {{ t('common.reset') }}
             </el-button>
           </el-col>
         </el-row>
@@ -62,7 +62,7 @@
           <el-col
             :span="24"
           >
-            <el-form-item :label="$t('common.schedule')">
+            <el-form-item :label="t('common.schedule')">
               <el-progress
                 :text-inside="true"
                 :stroke-width="18"
@@ -76,7 +76,7 @@
           <el-col
             :span="24"
           >
-            <el-form-item :label="$t('common.consoleInfo')">
+            <el-form-item :label="t('common.consoleInfo')">
               <el-input
                 v-model="msgText"
                 :rows="15"
@@ -96,13 +96,13 @@
               size="small"
               @click="downloadTable"
             >
-              {{ $t('common.downloadDataTable') }}
+              {{ t('common.downloadDataTable') }}
             </el-button>
             <el-button
               size="small"
               @click="downloadError"
             >
-              {{ $t('common.downloadErrorInfo') }}
+              {{ t('common.downloadErrorInfo') }}
             </el-button>
           </el-col>
         </el-row>
@@ -155,7 +155,7 @@ export default {
       // 文件名称
       fileName: '',
       // 按钮名称
-      btnText: this.$t('common.beginImport'),
+      btnText: this.t('common.beginImport'),
       // 导入的地址
       actionUrl: '',
       // 弹窗名称
@@ -175,15 +175,15 @@ export default {
     },
     // 判断是导入
     isImport () {
-      return this.btnText === this.$t('common.beginImport')
+      return this.btnText === this.t('common.beginImport')
     }
   },
   watch: {
     visible (val) {
       if (val) {
         // 设置显示的 标题 查询按钮 action地址 下载按钮
-        this.dialogOption.title = this.options.title || this.$t('common.import')
-        this.btnText = this.options.btnText || this.$t('common.beginImport')
+        this.dialogOption.title = this.options.title || this.t('common.import')
+        this.btnText = this.options.btnText || this.t('common.beginImport')
         this.actionUrl = this.options.importTemplatePath
         this.showDownLoad = this.options.showDownLoad || false
         this.reset()
@@ -221,12 +221,12 @@ export default {
     begin () {
       // 判断ws断开则出提示信息
       if (socket.readyState !== 1) {
-        this.$message.error(this.$t('common.webSocketDisConnect'))
+        this.$message.error(this.t('common.webSocketDisConnect'))
         return
       }
       // 判断是否是一个文件
       if (this.fileList.length !== 1) {
-        let mess = this.$t('common.importFileTip')
+        let mess = this.t('common.importFileTip')
         this.$message({
           message: mess,
           type: 'warning'
@@ -242,7 +242,7 @@ export default {
       if (file.status !== 'ready') return
       this.reset()
       if (this.typeOrSizeError(file)) {
-        let mess = this.$t('common.uploadQueryFileTip')
+        let mess = this.t('common.uploadQueryFileTip')
         this.$message({
           message: mess,
           type: 'warning'
@@ -280,7 +280,7 @@ export default {
     },
     // 下载错误报告
     downloadError () {
-      this.$method.downloadTxt(this.$t('common.errorInfoFileName'), this.msgText)
+      this.$method.downloadTxt(this.t('common.errorInfoFileName'), this.msgText)
     },
     // 上传成功
     uploadSuccess (resp, file, fileList) {

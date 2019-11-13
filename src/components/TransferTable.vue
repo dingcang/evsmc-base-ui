@@ -27,7 +27,7 @@
           :span="4"
           :offset="1"
         >
-          {{ $t('common.alreadySelect') }} {{ selected.length }} {{ $t('common.alreadySelectEnd') }}
+          {{ t('common.alreadySelect') }} {{ selected.length }} {{ t('common.alreadySelectEnd') }}
         </el-col>
         <el-col :span="4">
           <div class="text-align-right">
@@ -35,7 +35,7 @@
               size="mini"
               @click="toggleGrid()"
             >
-              {{ $t('common.clean') }}
+              {{ t('common.clean') }}
             </el-button>
           </div>
         </el-col>
@@ -94,8 +94,11 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
+
 export default {
   name: 'TransferTable',
+  mixins: [Locale],
   props: {
     options: {
       type: Object,

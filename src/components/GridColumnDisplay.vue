@@ -14,7 +14,7 @@
             :indeterminate="isIndeterminate"
             @change="handleCheckAll"
           >
-            {{ $t("common.allChecked") }}
+            {{ t("common.allChecked") }}
           </el-checkbox>
         </el-col>
         <el-col
@@ -42,19 +42,20 @@
         size="mini"
         @click="save"
       >
-        {{ $t('common.save') }}
+        {{ t('common.save') }}
       </el-button>
       <el-button
         size="mini"
         @click="close"
       >
-        {{ $t('common.cancel') }}
+        {{ t('common.cancel') }}
       </el-button>
     </div>
   </dialog-head>
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 // import { PersonalCenter } from '@/api'
 import DialogHead from '@/components/DialogHead'
 export default {
@@ -62,11 +63,12 @@ export default {
   components: {
     DialogHead
   },
+  mixins: [Locale],
   data () {
     return {
       dialogOptions: {
         // 弹窗名称
-        title: this.$t('common.chooseColumn'),
+        title: this.t('common.chooseColumn'),
         width: 'mini',
         center: true
       },
@@ -135,16 +137,13 @@ export default {
     },
     // 保存
     save () {
-      let param = {
-        tableId: this.gridColumnKey,
-        columns: []
-      }
+      let columns = []
       for (let item of this.columns) {
-        if (!item.show) param.columns.push(item.prop)
+        if (!item.show) columns.push(item.prop)
       }
       // PersonalCenter.hiddenColumns(param).then(() => {
       // 设置本地隐藏列
-      this.$store.commit('setHiddenGridColumnById', param)
+      this.$xyConfig.hiddenGridColumn[this.gridColumnKey] = columns
       this.columns = [...this.hiddenColumns, ...this.columns]
       this.$emit('save', this.columns)
       this.close()

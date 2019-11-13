@@ -80,13 +80,13 @@
               size="mini"
               @click="query"
             >
-              {{ $t('common.query') }}
+              {{ t('common.query') }}
             </el-button>
             <el-button
               size="mini"
               @click="reset"
             >
-              {{ $t('common.reset') }}
+              {{ t('common.reset') }}
             </el-button>
           </el-col>
         </el-form>
@@ -104,14 +104,16 @@
 </template>
 
 <script>
+import Locale from '@/mixins/locale'
 import _ from 'underscore'
 import Grid from '@/components/Grid'
 
 export default {
-  name: 'ChooseTableRowDialog',
+  name: 'ChooseTableRow',
   components: {
     Grid
   },
+  mixins: [Locale],
   // 双向绑定单选和多选结果
   model: {
     prop: 'selects',
