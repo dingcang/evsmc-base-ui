@@ -50,6 +50,31 @@ export default {
     clean: '清空',
     unChoose: '未选择',
     confirm: '已确认',
-    loading: '加载中...'
+    loading: '加载中...',
+    singleExecution: '单次执行',
+    startDate: '开始日期',
+    chooseTheStartDate: '选择开始日期',
+    endDate: '结束日期',
+    chooseTheEndDate: '选择结束日期',
+    enableStartTime: '启用开始时间',
+    enableEndTime: '启用结束时间',
+    '24HoursADay': '全天24小时',
+    loopExecution: '循环执行',
+    cycleType: '周期类型',
+    openingWeek: '启用星期',
+    setupTime: '设置时间',
+    weeklyCycle: '每周循环',
+    dailyCirculation: '每天循环',
+    one: '一',
+    two: '二',
+    three: '三',
+    four: '四',
+    five: '五',
+    six: '六',
+    seven: '日',
+    startDateLessEndDateTip: '开始日期不能大于结束日期',
+    startTimeLessEndTimeTip: '启用开始时间不能大于启用结束时间',
+
+    required: '必填'
   }
 }

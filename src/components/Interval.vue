@@ -10,7 +10,7 @@
           v-model="activeTab"
           type="border-card"
         >
-          <el-tab-pane :label="t('components.singleExecution')">
+          <el-tab-pane :label="t('common.singleExecution')">
             <el-form
               ref="ruleForm"
               :model="ruleForm"
@@ -23,12 +23,12 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="t('components.startDate')"
+                    :label="t('common.startDate')"
                     prop="startDate"
                   >
                     <el-date-picker
                       v-model="ruleForm.startDate"
-                      :placeholder="t('components.chooseTheStartDate')"
+                      :placeholder="t('common.chooseTheStartDate')"
                       type="date"
                       value-format="yyyy-MM-dd"
                     />
@@ -38,12 +38,12 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="t('components.endDate')"
+                    :label="t('common.endDate')"
                     prop="endDate"
                   >
                     <el-date-picker
                       v-model="ruleForm.endDate"
-                      :placeholder="t('components.chooseTheEndDate')"
+                      :placeholder="t('common.chooseTheEndDate')"
                       type="date"
                       value-format="yyyy-MM-dd"
                     />
@@ -53,7 +53,7 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="t('components.enableStartTime')"
+                    :label="t('common.enableStartTime')"
                     prop="startTime"
                   >
                     <el-time-picker
@@ -70,7 +70,7 @@
               <el-row :gutter="gutter">
                 <el-col :span="span">
                   <el-form-item
-                    :label="t('components.enableEndTime')"
+                    :label="t('common.enableEndTime')"
                     prop="endTime"
                   >
                     <el-time-picker
@@ -93,13 +93,13 @@
                     <el-checkbox
                       v-model="ruleForm.allHours"
                       class="margin-right5"
-                    />{{ t('components.24HoursADay') }}
+                    />{{ t('common.24HoursADay') }}
                   </el-form-item>
                 </el-col>
               </el-row>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane :label="t('components.loopExecution')">
+          <el-tab-pane :label="t('common.loopExecution')">
             <el-form
               ref="ruleForm2"
               :model="ruleForm2"
@@ -113,7 +113,7 @@
                 <el-row :gutter="gutter">
                   <el-col :span="span">
                     <el-form-item
-                      :label="t('components.cycleType')"
+                      :label="t('common.cycleType')"
                       prop="periodType"
                     >
                       <el-select v-model="ruleForm2.periodType">
@@ -133,7 +133,7 @@
                 >
                   <el-col :span="span">
                     <el-form-item
-                      :label="t('components.openingWeek')"
+                      :label="t('common.openingWeek')"
                       prop="week"
                     >
                       <el-checkbox-group
@@ -154,7 +154,7 @@
                 <el-row :gutter="gutter">
                   <el-col :span="span">
                     <el-form-item
-                      :label="t('components.enableStartTime')"
+                      :label="t('common.enableStartTime')"
                       prop="startTime"
                     >
                       <el-time-picker
@@ -171,7 +171,7 @@
                 <el-row :gutter="gutter">
                   <el-col :span="span">
                     <el-form-item
-                      :label="t('components.enableEndTime')"
+                      :label="t('common.enableEndTime')"
                       prop="endTime"
                     >
                       <el-time-picker
@@ -194,7 +194,7 @@
                       <el-checkbox
                         v-model="ruleForm2.allHours"
                         class="margin-right5"
-                      />{{ t('components.24HoursADay') }}
+                      />{{ t('common.24HoursADay') }}
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -258,7 +258,7 @@ export default {
     return {
       // 弹窗配置项
       dialogOptions: {
-        title: this.t('components.setupTime'),
+        title: this.t('common.setupTime'),
         width: 'mini'
       },
       // 选中的tab
@@ -287,15 +287,15 @@ export default {
 
       // 循环执行
       // 周期类型
-      periodType: [{ value: 1, label: this.t('components.weeklyCycle') }, { value: 2, label: this.t('components.dailyCirculation') }],
+      periodType: [{ value: 1, label: this.t('common.weeklyCycle') }, { value: 2, label: this.t('common.dailyCirculation') }],
       // 启用星期
-      weeks: [{ value: 1, label: this.t('components.one') },
-        { value: 2, label: this.t('components.two') },
-        { value: 3, label: this.t('components.three') },
-        { value: 4, label: this.t('components.four') },
-        { value: 5, label: this.t('components.five') },
-        { value: 6, label: this.t('components.six') },
-        { value: 7, label: this.t('components.seven') }],
+      weeks: [{ value: 1, label: this.t('common.one') },
+        { value: 2, label: this.t('common.two') },
+        { value: 3, label: this.t('common.three') },
+        { value: 4, label: this.t('common.four') },
+        { value: 5, label: this.t('common.five') },
+        { value: 6, label: this.t('common.six') },
+        { value: 7, label: this.t('common.seven') }],
       // 表单
       ruleForm2: {
         periodType: 1,
@@ -435,13 +435,13 @@ export default {
       let success = true
       if (this.formName === 'ruleForm') {
         if (dayjs(this.ruleForm.startDate).isAfter(dayjs(this.ruleForm.endDate))) {
-          this.$message.error(this.t('components.startDateLessEndDateTip'))
+          this.$message.error(this.t('common.startDateLessEndDateTip'))
           success = false
         }
       }
       if (!this[this.formName].allHours && success) {
         if (dayjs('2018-1-1' + this[this.formName].startTime).isAfter(dayjs('2018-1-1' + this[this.formName].endTime))) {
-          this.$message.error(this.t('components.startTimeLessEndTimeTip'))
+          this.$message.error(this.t('common.startTimeLessEndTimeTip'))
           success = false
         }
       }
