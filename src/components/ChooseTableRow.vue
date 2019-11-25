@@ -107,6 +107,7 @@
 import Locale from '@/mixins/locale'
 import _ from 'underscore'
 import Grid from '@/components/Grid'
+import { isNotEmpty } from '@/utils'
 
 export default {
   name: 'ChooseTableRow',
@@ -187,7 +188,7 @@ export default {
       set: function (v) { this.$emit('changeVal', v) }
     },
     showQuery () {
-      return !this.queryOptions.hiddenQueryBtn && this.$method.isNotEmpty(this.queryOptions) && this.queryOptions.columns.length > 0
+      return !this.queryOptions.hiddenQueryBtn && isNotEmpty(this.queryOptions) && this.queryOptions.columns.length > 0
     }
   },
   mounted () {
@@ -212,12 +213,12 @@ export default {
         conditions.conditions.push({ name: key, value: value })
       })
       // 分页
-      if (this.$method.isNotEmpty(params)) {
+      if (isNotEmpty(params)) {
         Object.assign(conditions, params)
       }
       _.each(this.queryOptions.columns, item => {
         let value = this.queryValue[item.id]
-        if (this.$method.isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
+        if (isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
           // 特殊处理年类型的日期
           if (item.dateType === 'year') value = value.substr(0, 4)
           conditions.conditions.push({ name: item.model, value: value })

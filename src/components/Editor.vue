@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { isNotEmpty } from '@/utils'
 
 export default {
   name: 'Editor',
@@ -37,7 +38,7 @@ export default {
   },
   watch: {
     value: function (val, oldVal) {
-      if (this.$method.isNotEmpty(val) && this.ready) {
+      if (isNotEmpty(val) && this.ready) {
         this.editor = UE.getEditor(this.randomId, this.options)
         this.editor.setContent(val)
       }

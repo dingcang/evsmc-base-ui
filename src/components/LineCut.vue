@@ -187,6 +187,7 @@
 <script>
 import Locale from '@/mixins/locale'
 import _ from 'underscore'
+import { isNotEmpty, isEmpty, deepCopy } from '@/utils'
 
 export default {
   name: 'LineCut',
@@ -240,11 +241,11 @@ export default {
   },
   computed: {
     noRules () {
-      return this.$method.isEmpty(this.rules)
+      return isEmpty(this.rules)
     },
     ruleAndLine () {
       if (this.noRules) return false
-      return { lines: this.$method.deepCopy(this.lines) }
+      return { lines: deepCopy(this.lines) }
     }
   },
   watch: {
@@ -305,7 +306,7 @@ export default {
         index: this.index++
       }
       for (let item of this.columns) {
-        let defaultValue = this.$method.isNotEmpty(item.default) ? item.default : ''
+        let defaultValue = isNotEmpty(item.default) ? item.default : ''
         emptyLine[item.model] = defaultValue
       }
       return emptyLine
@@ -338,7 +339,7 @@ export default {
     // 设置tag
     setTag (index, data, tagColumns) {
       for (let item of tagColumns) {
-        if (this.$method.isNotEmpty(data[item.model])) {
+        if (isNotEmpty(data[item.model])) {
           let rows = []
           let tagKeys = data[item.model].split(',')
           let tagLabels = data[item.model + 'Name'].split(',')
@@ -348,7 +349,7 @@ export default {
             tagObj[item.tagLabel] = tagLabels[i]
             rows.push(tagObj)
           }
-          if (this.$method.isEmpty(this.selectedItem[index])) this.$set(this.selectedItem, index, {})
+          if (isEmpty(this.selectedItem[index])) this.$set(this.selectedItem, index, {})
           this.$set(this.selectedItem[index], item.model, rows)
         }
       }
@@ -366,7 +367,7 @@ export default {
     // 制作返回的数据结构
     makeRetData () {
       // 去除index属性
-      let datas = this.$method.deepCopy(this.lines)
+      let datas = deepCopy(this.lines)
       _.each(datas, data => {
         delete data.index
       })
@@ -391,8 +392,8 @@ export default {
       this.openId = line.index
       this.openModel = model
       let oldItem = []
-      if (this.$method.isNotEmpty(this.selectedItem[line.index]) &&
-          this.$method.isNotEmpty(this.selectedItem[line.index][model])) {
+      if (isNotEmpty(this.selectedItem[line.index]) &&
+          isNotEmpty(this.selectedItem[line.index][model])) {
         oldItem = this.selectedItem[line.index][model]
       }
       this.$emit('lineCallBack', model, oldItem, line)
@@ -402,7 +403,7 @@ export default {
       let index = this.lines.findIndex(t => t.index === this.openId)
       this.$set(this.lines[index], this.openModel, showText)
 
-      if (this.$method.isEmpty(this.selectedItem[this.openId])) this.$set(this.selectedItem, this.openId, {})
+      if (isEmpty(this.selectedItem[this.openId])) this.$set(this.selectedItem, this.openId, {})
       this.$set(this.selectedItem[this.openId], this.openModel, rows)
     },
     // 下拉框变化
@@ -414,7 +415,7 @@ export default {
       let index = this.lines.findIndex(t => t.index === line.index)
       this.$set(this.lines[index], model, showText)
 
-      if (this.$method.isEmpty(this.selectedItem[line.index])) this.$set(this.selectedItem, line.index, {})
+      if (isEmpty(this.selectedItem[line.index])) this.$set(this.selectedItem, line.index, {})
       this.$set(this.selectedItem[line.index], model, rows)
     },
     // 多选下拉框变化
@@ -428,7 +429,7 @@ export default {
     },
     // 判断tag隐藏显示
     showTag (index, model) {
-      return this.$method.isNotEmpty(this.selectedItem[index]) && this.$method.isNotEmpty(this.selectedItem[index][model])
+      return isNotEmpty(this.selectedItem[index]) && isNotEmpty(this.selectedItem[index][model])
     },
     // 删除tag
     removeTag (lineIndex, index, item, tag, tagIndex) {

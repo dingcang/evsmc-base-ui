@@ -13,6 +13,7 @@
 
 <script>
 import _ from 'underscore'
+import { copyToClipboard } from '@/utils'
 export default {
   props: {
     // 描述
@@ -36,7 +37,7 @@ export default {
     copy (text) {
       let that = this
       if (!_.isUndefined(text)) this.value = text
-      this.$method.copyToClipboard(this.value)
+      copyToClipboard(this.value)
       this.copyTip = this.t('common.copied')
       setTimeout(function () {
         that.copyTip = that.t('common.copyToClipboard')

@@ -65,6 +65,8 @@
 
 <script>
 import DetailPage from '@/components/DetailPage'
+import { isNotEmpty, isEmpty } from '@/utils'
+
 export default {
   name: 'DetailDialog',
   components: {
@@ -141,10 +143,10 @@ export default {
     },
     // 显示tab
     showTab () {
-      return this.$method.isNotEmpty(this.tabColumns) && this.tabColumns.length > 0 && this.visible
+      return isNotEmpty(this.tabColumns) && this.tabColumns.length > 0 && this.visible
     },
     dialogStyle () {
-      if (this.$method.isNotEmpty(this.options.height)) return 'width:' + this.dialogInnerWidth + ';height:' + this.options.height
+      if (isNotEmpty(this.options.height)) return 'width:' + this.dialogInnerWidth + ';height:' + this.options.height
       return 'width:' + this.dialogInnerWidth
     }
   },
@@ -152,7 +154,7 @@ export default {
     // 弹窗大小判断
     'options.width': {
       handler (v) {
-        if (this.$method.isEmpty(v)) return
+        if (isEmpty(v)) return
         switch (this.options.width) {
           case 'mini':
             this.dialogWidth = this.$xyConfig.miniDialogWidth
@@ -178,7 +180,7 @@ export default {
     // 监控data变化
     data: {
       handler (v) {
-        if (this.$method.isEmpty(v)) return
+        if (isEmpty(v)) return
         this.pageData = Object.assign({}, this.data)
       },
       immediate: true
@@ -198,7 +200,7 @@ export default {
     // 监控tab页变化
     activeTab: {
       handler (v) {
-        if (this.$method.isEmpty(v)) return
+        if (isEmpty(v)) return
         for (let item of this.tabColumns) {
           if (v === item.title) {
             this.pageColumn = item.columns

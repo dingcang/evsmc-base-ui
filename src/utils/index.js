@@ -1,5 +1,5 @@
 // 判断是否不为空 (数字/数组/对象/字符串)
-let isNotEmpty = function (val) {
+export const isNotEmpty = function (val) {
   if (val instanceof Number) {
     return true
   } else if (val instanceof Array) {
@@ -13,7 +13,7 @@ let isNotEmpty = function (val) {
 }
 
 // 判断是否为空 (数字/数组/对象/字符串)
-let isEmpty = function (val) {
+export const isEmpty = function (val) {
   if (val instanceof Number) {
     return false
   } else if (val instanceof Array) {
@@ -25,10 +25,22 @@ let isEmpty = function (val) {
   }
   return false
 }
+export const deepCopy = function (param) {
+  return JSON.parse(JSON.stringify(param))
+}
+// 复制到剪切板
+export const copyToClipboard = function (text) {
+  let oInput = document.createElement('textarea')
+  oInput.value = text
+  document.body.appendChild(oInput)
+  oInput.select()
+  document.execCommand('Copy')
+  document.body.removeChild(oInput)
+}
 
 // region zqq
 // 校验表单
-let validateFrom = function (form) {
+export const validateFrom = function (form) {
   let validate = false
   form.validate((valid) => { validate = valid })
   return validate
@@ -38,5 +50,7 @@ let validateFrom = function (form) {
 Vue.prototype.$method = {
   isNotEmpty,
   isEmpty,
+  deepCopy,
+  copyToClipboard,
   validateFrom
 }

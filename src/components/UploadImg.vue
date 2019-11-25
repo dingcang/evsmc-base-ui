@@ -36,6 +36,8 @@
 import * as config from '../api/config'
 
 import ShowImage from '@/components/ShowImage'
+import { isEmpty } from '@/utils'
+
 export default {
   name: 'UploadImg',
   components: {
@@ -99,7 +101,7 @@ export default {
     // 设置旧imageIds
     oldImage: {
       handler (val) {
-        if (this.$method.isEmpty(val)) {
+        if (isEmpty(val)) {
           this.list = []
           this.oldImageIds = []
           this.imageIds = []
@@ -189,7 +191,7 @@ export default {
     },
     // 获取图片
     async getImageById (id) {
-      let url = await this.$method.getImageById(id)
+      let url = await this.$xyConfig.getImageById(id)
       this.list = [{ url: url }]
       this.oldImageIds.push({ id: id, url: url })
     },

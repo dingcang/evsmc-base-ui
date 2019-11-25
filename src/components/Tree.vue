@@ -80,6 +80,7 @@
 
 <script>
 import Locale from '@/mixins/locale'
+import { isNotEmpty, isEmpty } from '@/utils'
 
 export default {
   name: 'Tree',
@@ -201,7 +202,7 @@ export default {
   computed: {
     // 显示条件过滤
     showMultipartQuery () {
-      return this.$method.isNotEmpty(this.options.multipartQueryModel) && this.options.multipartQueryModel.length > 0
+      return isNotEmpty(this.options.multipartQueryModel) && this.options.multipartQueryModel.length > 0
     },
     // 左侧过滤宽度
     filterLeftSpan () {
@@ -216,7 +217,7 @@ export default {
     // 显示按钮操作
     showRenderContent () {
       return (
-        this.$method.isNotEmpty(this.options.renderContentArray) &&
+        isNotEmpty(this.options.renderContentArray) &&
           this.options.renderContentArray.length > 0
       )
     }
@@ -225,7 +226,7 @@ export default {
     // 监控节点过滤默认值
     'options.multipartQueryModel': {
       handler (val) {
-        if (this.$method.isEmpty(val)) return
+        if (isEmpty(val)) return
         this.multipartQueryModel = val
       },
       immediate: true
@@ -233,12 +234,12 @@ export default {
     // 监控节点过滤
     filterText (val) {
       // 去除空格
-      if (this.$method.isNotEmpty(val)) {
+      if (isNotEmpty(val)) {
         val = val.trim()
       }
       this.$refs.tree.filter(val)
       // 设置显示无数据时的提示文字
-      if (this.$method.isNotEmpty(this.options.emptyText) && this.options.emptyText !== this.t('common.noDataTip')) {
+      if (isNotEmpty(this.options.emptyText) && this.options.emptyText !== this.t('common.noDataTip')) {
         this.options.emptyText = this.t('common.noDataTip')
       }
     }
@@ -288,7 +289,7 @@ export default {
     filterNode (value, data) {
       if (!value) return true
       let filterColumn = this.options.label
-      if (this.$method.isNotEmpty(this.multipartQueryModel)) filterColumn = this.multipartQueryModel
+      if (isNotEmpty(this.multipartQueryModel)) filterColumn = this.multipartQueryModel
       let strData = data[filterColumn] + ''
       return strData.indexOf(value) !== -1
     },
@@ -442,7 +443,7 @@ export default {
         }
       }
 
-      let children = this.$method.isEmpty(that.options.children) ? 'children' : that.options.children
+      let children = isEmpty(that.options.children) ? 'children' : that.options.children
       if (currentNode) {
         let setClicked = arr => {
           arr.forEach(v => {
@@ -455,7 +456,7 @@ export default {
         setClicked(that.data)
         that.$set(data, 'currentNode', true)
       }
-      if (this.$method.isEmpty(this.options.renderContentArray)) return
+      if (isEmpty(this.options.renderContentArray)) return
       for (let cur of this.options.renderContentArray) {
         if (cur === 'detail') {
           that.$set(data, 'detailShow', value)
@@ -471,8 +472,8 @@ export default {
     // 判断按钮显示图标
     showBtnIcon (data) {
       let judge = this.options.showBtnIconJudge
-      if (this.$method.isEmpty(judge)) return false
-      if (this.$method.isEmpty(judge.secondKey)) {
+      if (isEmpty(judge)) return false
+      if (isEmpty(judge.secondKey)) {
         return data[judge.key] === judge.value
       } else {
         return data[judge.key][judge.secondKey] === judge.value
@@ -489,8 +490,8 @@ export default {
       if (btnIndex === -1) return false
 
       // 判断按钮权限
-      if (this.$method.isNotEmpty(this.options.renderContentArrayPerm)) {
-        let noPerm = this.$method.isNotEmpty(this.options.renderContentArray) && !this.hasPerm(this.options.renderContentArrayPerm[btnIndex])
+      if (isNotEmpty(this.options.renderContentArrayPerm)) {
+        let noPerm = isNotEmpty(this.options.renderContentArray) && !this.hasPerm(this.options.renderContentArrayPerm[btnIndex])
         if (noPerm) return false
       }
 

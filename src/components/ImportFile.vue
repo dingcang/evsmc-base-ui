@@ -115,6 +115,8 @@
 import { socket, subjectSocket } from '../eventbus'
 
 import DialogHead from '../components/DialogHead'
+import { isNotEmpty } from '@/utils'
+
 export default {
   name: 'ImportFile',
   components: {
@@ -205,7 +207,7 @@ export default {
         (msg) => {
           // console.log(msg)
           if (msg.resourceType === this.options.type) {
-            if (this.$method.isNotEmpty(msg.message)) {
+            if (isNotEmpty(msg.message)) {
               this.msgText = this.msgText + msg.message + '\r\n'
             }
             if (msg.data > 0) {
@@ -280,7 +282,7 @@ export default {
     },
     // 下载错误报告
     downloadError () {
-      this.$method.downloadTxt(this.t('common.errorInfoFileName'), this.msgText)
+      this.$xyConfig.downloadTxt(this.t('common.errorInfoFileName'), this.msgText)
     },
     // 上传成功
     uploadSuccess (resp, file, fileList) {

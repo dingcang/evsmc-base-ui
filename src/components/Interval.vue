@@ -226,12 +226,15 @@
 <script>
 import dayjs from 'dayjs'
 import DialogHead from '@/components/DialogHead'
+import Locale from '@/mixins/locale'
+import { isEmpty, validateFrom } from '@/utils'
 
 export default {
   name: 'Interval',
   components: {
     DialogHead
   },
+  mixins: [Locale],
   // 弹窗 隐藏/显示
   model: {
     prop: 'show',
@@ -334,7 +337,7 @@ export default {
       handler: function (v) {
         if (v) {
           // 如果存在旧的选中的值 设置选中
-          if (this.$method.isEmpty(this.data)) {
+          if (isEmpty(this.data)) {
             this.$nextTick(function () {
               this.$refs.ruleForm.resetFields()
               this.$refs.ruleForm2.resetFields()
@@ -411,7 +414,7 @@ export default {
   methods: {
     save () {
       // 校验表单
-      if (!this.$method.validateFrom(this.$refs[this.formName])) return
+      if (!validateFrom(this.$refs[this.formName])) return
       if (!this.validateForm()) return
       // 设置返回数据结构, tabId为单次执行或循环执行 '0'/'1', data为表单数据
       let data = { tabId: this.activeTab, data: this[this.formName], tip: this.t('common.alreadySet') }

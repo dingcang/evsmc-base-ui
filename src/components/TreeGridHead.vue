@@ -38,7 +38,7 @@
                 size="mini"
                 @click="dropDownCallBack(item.type)"
               >
-                <i :class="$method.isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
+                <i :class="isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
                 <span v-if="item.showText">
                   {{ item.name }}
                 </span>
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import { isNotEmpty, isEmpty } from '@/utils'
+
 export default {
   name: 'TreeGridHead',
   props: {
@@ -116,25 +118,26 @@ export default {
   methods: {
     // 左侧/右侧 更多按钮 显示/隐藏
     showMoreMenu (list) {
-      if (this.$method.isEmpty(list)) return false
+      if (isEmpty(list)) return false
       let hadMore = list.findIndex(item => {
-        return item.outShow !== true && (this.$method.isEmpty(item.perm) || this.hasPerm(item.perm))
+        return item.outShow !== true && (isEmpty(item.perm) || this.hasPerm(item.perm))
       }) !== -1
       return hadMore
     },
     // 判断单个按钮权限 显示/隐藏
     showSingleBtn (item) {
-      return this.$method.isEmpty(item.perm) || this.hasPerm(item.perm)
+      return isEmpty(item.perm) || this.hasPerm(item.perm)
     },
     // 判断下拉选项  显示/隐藏
     showDropDownItem (item) {
       if (item.outShow) return false
-      return this.$method.isEmpty(item.perm) || this.hasPerm(item.perm)
+      return isEmpty(item.perm) || this.hasPerm(item.perm)
     },
     // 点击树的动作回调
     dropDownCallBack (type) {
       this.$emit('dropDownCallBack', type)
-    }
+    },
+    isNotEmpty
   }
 }
 </script>

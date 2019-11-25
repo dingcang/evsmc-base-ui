@@ -92,6 +92,7 @@
 
 <script>
 import Locale from '@/mixins/locale'
+import { isEmpty } from '@/utils'
 
 export default {
   name: 'Add',
@@ -132,7 +133,7 @@ export default {
     },
     // 隐藏头标题时 去掉三个样式
     hiddenTitle () {
-      return this.$method.isEmpty(this.options.title)
+      return isEmpty(this.options.title)
     }
   },
   watch: {

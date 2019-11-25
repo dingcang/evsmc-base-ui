@@ -144,6 +144,7 @@
 
 <script>
 import Locale from '@/mixins/locale'
+import { isNotEmpty, isEmpty } from '@/utils'
 
 export default {
   name: 'TransferPageTable',
@@ -277,8 +278,8 @@ export default {
     },
     // 判断是否显示表头描述
     showHeadText () {
-      return this.$method.isNotEmpty(this.options) &&
-          this.$method.isNotEmpty(this.options.headText) &&
+      return isNotEmpty(this.options) &&
+          isNotEmpty(this.options.headText) &&
           this.options.headText.length > 0
     },
     // 判断tag长度
@@ -287,20 +288,20 @@ export default {
     },
     // 判断是否显示tag选择框
     showSelected () {
-      return this.$method.isNotEmpty(this.options) &&
-          this.$method.isNotEmpty(this.radioOrSelection) &&
+      return isNotEmpty(this.options) &&
+          isNotEmpty(this.radioOrSelection) &&
           this.radioOrSelection !== 'radio'
     },
     // 判断是否显示查询
     showQuery () {
-      return this.$method.isNotEmpty(this.options) &&
-          this.$method.isNotEmpty(this.options.queryColumn) &&
+      return isNotEmpty(this.options) &&
+          isNotEmpty(this.options.queryColumn) &&
           this.options.queryColumn.length > 0
     },
     // 判断是否显示页脚默认的按钮 确认和取消
     showDefaultButton () {
-      return this.$method.isEmpty(this.options) ||
-          this.$method.isEmpty(this.options.footerButtons) ||
+      return isEmpty(this.options) ||
+          isEmpty(this.options.footerButtons) ||
           this.options.footerButtons.length === 0
     }
   },
@@ -372,7 +373,7 @@ export default {
   methods: {
     // 过滤显示的标签
     filterTags () {
-      if (this.$method.isEmpty(this.tagFilter) || this.realSelectedTags.length === 0) {
+      if (isEmpty(this.tagFilter) || this.realSelectedTags.length === 0) {
         this.showSelectedTags = this.realSelectedTags
         return
       }
@@ -385,7 +386,7 @@ export default {
       // 特殊处理单选取消时去掉表格单选
       if (this.radioOrSelection === 'radio') this.$refs.dialogGrid.radioCheck(-1)
       // 移除单个
-      if (this.$method.isNotEmpty(item)) {
+      if (isNotEmpty(item)) {
         this.realSelectedTags.splice(this.realSelectedTags.findIndex(c => c[this.options.tagKey] === item[this.options.tagKey]), 1)
         this.$refs.dialogGrid.selectionCheck([item], this.gridData)
         return
@@ -398,9 +399,9 @@ export default {
     query (params) {
       Object.assign(this.queryParams, params)
       // 设置url中的参数
-      if (this.$method.isNotEmpty(this.options.urlParams)) Object.assign(this.queryParams, this.options.urlParams)
+      if (isNotEmpty(this.options.urlParams)) Object.assign(this.queryParams, this.options.urlParams)
       // 设置隐藏的查询条件
-      if (this.$method.isNotEmpty(this.options.hiddenQueryParams)) {
+      if (isNotEmpty(this.options.hiddenQueryParams)) {
         for (let key in this.options.hiddenQueryParams) {
           this.queryParams.conditions.push({ name: key, value: this.options.hiddenQueryParams[key] })
         }
@@ -466,7 +467,7 @@ export default {
     // 设置表格选中或取消
     toggleGrid (rows) {
       // 单击行
-      if (this.$method.isNotEmpty(rows) && rows instanceof Object) rows = [rows]
+      if (isNotEmpty(rows) && rows instanceof Object) rows = [rows]
       if (rows) {
         rows.forEach(row => {
           // 选中单行
@@ -485,10 +486,10 @@ export default {
     save () {
       if (this.radioOrSelection === 'radio') {
         let data = {}
-        data = this.$method.isNotEmpty(this.selections) ? this.selections[0] : {}
+        data = isNotEmpty(this.selections) ? this.selections[0] : {}
         this.$emit('save', data)
       } else {
-        if (this.$method.overMaxLimit(this.realSelectedTags, this.options.limitSelected)) return
+        if (this.$xyConfig.overMaxLimit(this.realSelectedTags, this.options.limitSelected)) return
         this.$emit('save', this.realSelectedTags)
       }
       this.close()

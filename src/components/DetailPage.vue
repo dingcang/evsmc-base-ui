@@ -210,6 +210,7 @@
 
 <script>
 import Editor from '@/components/Editor'
+import { isNotEmpty, isEmpty } from '@/utils'
 
 export default {
   name: 'DetailPage',
@@ -272,12 +273,12 @@ export default {
   methods: {
     // 设置显示值
     showTextValue (value) {
-      if (this.$method.isNotEmpty(value)) return value
+      if (isNotEmpty(value)) return value
       return '-'
     },
     // 显示隐藏 horizontalTable
     showHorizontalTable (item, data) {
-      if (this.$method.isNotEmpty(item.show)) {
+      if (isNotEmpty(item.show)) {
         return data[item.show.model] === item.show.value && item.type === 'horizontalTable'
       }
       return item.type === 'horizontalTable'
@@ -295,14 +296,14 @@ export default {
     },
     // 隐藏列
     showTextCol (item, data) {
-      if (this.$method.isNotEmpty(item.hide)) {
-        return data[item.hide.model] !== item.hide.value && this.$method.isEmpty(item.type)
+      if (isNotEmpty(item.hide)) {
+        return data[item.hide.model] !== item.hide.value && isEmpty(item.type)
       }
-      return this.$method.isEmpty(item.type)
+      return isEmpty(item.type)
     },
     // 显示隐藏textarea
     showTextAreaCol (item, data) {
-      if (this.$method.isNotEmpty(item.hide)) {
+      if (isNotEmpty(item.hide)) {
         return data[item.hide.model] !== item.hide.value && item.type === 'textarea'
       }
       return item.type === 'textarea'
@@ -317,12 +318,13 @@ export default {
     },
     // 获取图片地址
     async getImageSrc (id) {
-      let src = await this.$method.getImageById(id)
+      // TODO
+      let src = await this.$xyConfig.getImageById(id)
       this.$set(this.data, id, src)
     },
     // 判断文本超长
     textOverflow (text) {
-      return this.$method.isNotEmpty(text) && text.length > 10
+      return isNotEmpty(text) && text.length > 10
     },
     // 计算纵向表格列
     verticalTableSpan (len) {

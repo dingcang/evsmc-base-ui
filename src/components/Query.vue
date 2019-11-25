@@ -317,6 +317,7 @@
 <script>
 import Locale from '@/mixins/locale'
 import dayjs from 'dayjs'
+import { isNotEmpty, isEmpty, validateFrom } from '@/utils'
 
 export default {
   name: 'Query',
@@ -528,7 +529,7 @@ export default {
       }
     },
     checkSplitDate (item, val) {
-      if (this.$method.isEmpty(val) || item.type !== 'doubleSplitDateTime') return
+      if (isEmpty(val) || item.type !== 'doubleSplitDateTime') return
       let beginTime = ''
       let endTime = ''
       if (item.model === 'endTime') {
@@ -539,14 +540,14 @@ export default {
         beginTime = val
       }
 
-      if (this.$method.isNotEmpty(beginTime) && this.$method.isNotEmpty(endTime)) {
+      if (isNotEmpty(beginTime) && isNotEmpty(endTime)) {
         if (dayjs(beginTime).isAfter(dayjs(endTime))) {
           this.$message.error(this.t('common.startTime') + this.t('common.lessThan') + this.t('common.endTime'))
           this.$set(this.value, item.id, '')
           return
         }
 
-        if (this.$method.isNotEmpty(item.dayRange) && this.$method.isNotEmpty(val)) {
+        if (isNotEmpty(item.dayRange) && isNotEmpty(val)) {
           let day = dayjs(endTime).diff(dayjs(beginTime), 'day')
           if (day > item.dayRange) {
             this.$message.error(this.t('common.startDateRange') + item.dayRange + this.t('common.endDateRange'))
@@ -557,14 +558,14 @@ export default {
     },
     // 时间段校验
     checkRangeDate (item, val) {
-      if (this.$method.isEmpty(val)) return
+      if (isEmpty(val)) return
       if (val.length === 2 && dayjs(val[1]).isAfter(dayjs(new Date()))) {
         this.$message.error(this.t('common.endTimeThanCurrentTimeTip'))
         this.$set(this.value, item.id, '')
         return
       }
 
-      if (this.$method.isNotEmpty(item.dayRange) && this.$method.isNotEmpty(val)) {
+      if (isNotEmpty(item.dayRange) && isNotEmpty(val)) {
         let startTime = val[0]
         let endTime = val[1]
         let day = dayjs(endTime).diff(dayjs(startTime), 'day')
@@ -654,7 +655,7 @@ export default {
       let openIndex = this.domData.findIndex(item => item.id === this.openId)
       let showProperty = this.domData[openIndex].showModel || 'name'
       // 会写的值为空
-      if (this.$method.isEmpty(rows)) {
+      if (isEmpty(rows)) {
         this.$set(this.value, this.openId, '')
         this.$set(this.valueObj, this.openId, {})
         return
@@ -710,7 +711,7 @@ export default {
     // 查询
     query () {
       // 校验表单
-      if (!this.$method.validateFrom(this.$refs['queryRuleForm'])) return
+      if (!validateFrom(this.$refs['queryRuleForm'])) return
 
       // 点击查询收起页面 隐藏
       // if (this.showMore) this.expand = false
@@ -723,11 +724,11 @@ export default {
         }
         for (let item of this.domData) {
           let value = this.value[item.id]
-          if (this.$method.isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
+          if (isNotEmpty(value) || typeof value === 'number' || typeof value === 'boolean') {
             // 特殊处理年类型的日期
             if (item.dateType === 'year') value = value.substr(0, 4)
             // 特殊处理search类型显示name查询时使用id或其他
-            if (item.type === 'search' && this.$method.isNotEmpty(item.queryModel)) {
+            if (item.type === 'search' && isNotEmpty(item.queryModel)) {
               let obj = this.valueObj[item.id]
               if (Array.isArray(obj)) {
                 // 多选的数据
@@ -790,10 +791,10 @@ export default {
     },
     // 下载查询模板
     downLoadTemplate () {
-      if (this.$method.isEmpty(this.options.importTemplateUrl)) {
+      if (isEmpty(this.options.importTemplateUrl)) {
         this.$message.error(this.t('common.pleaseSetSearchTemplateUrl'))
       }
-      this.$method.downLoadFile(this.options.importTemplatePath)
+      this.$xyConfig.downLoadFile(this.options.importTemplatePath)
     },
     // 清空值
     cleanValue () {

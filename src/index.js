@@ -262,7 +262,19 @@ function install (Vue, options = {}) {
     // 菜单列隐藏显示
     hiddenGridColumn: [],
 
-    uploadImportSearchFile: ''
+    uploadImportSearchFile: '',
+    getImg: '',
+
+    getImageById () {
+      let src = ''
+      return src
+    },
+
+    downloadTxt () {},
+
+    downLoadFile () {},
+
+    overMaxLimit () {}
   }
 
   Vue.prototype.$xyConfig = new Vue({
@@ -275,7 +287,7 @@ function install (Vue, options = {}) {
 }
 
 export default {
-  version: '0.2.2-beta',
+  version: '0.2.2.1-beta',
   locale: locale.use,
   i18n: locale.i18n,
   install

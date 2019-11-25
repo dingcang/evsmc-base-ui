@@ -88,6 +88,7 @@
 
 <script>
 import ShowImage from '@/components/ShowImage'
+import { isNotEmpty, isEmpty } from '@/utils'
 
 export default {
   name: 'TreeGridDetailForm',
@@ -138,14 +139,14 @@ export default {
   methods: {
     // 隐藏列
     showTextCol (item, data) {
-      if (this.$method.isNotEmpty(item.hide)) {
-        return data[item.hide.model] !== item.hide.value && this.$method.isEmpty(item.type)
+      if (isNotEmpty(item.hide)) {
+        return data[item.hide.model] !== item.hide.value && isEmpty(item.type)
       }
       return true
     },
     showTip (value) {
       let strVal = value + ''
-      return this.$method.isEmpty(strVal) || strVal.length < 8
+      return isEmpty(strVal) || strVal.length < 8
     },
     formBtnCallBack (model, data) {
       this.$emit('formBtnCallBack', model, data)
@@ -155,7 +156,7 @@ export default {
       this.showBigImage = true
     },
     showBtn (item) {
-      return item.type === 'button' && (this.hasPerm(item.param.perm) || this.$method.isEmpty(item.param.perm))
+      return item.type === 'button' && (this.hasPerm(item.param.perm) || isEmpty(item.param.perm))
     }
   }
 }

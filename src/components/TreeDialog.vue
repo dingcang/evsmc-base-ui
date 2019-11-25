@@ -74,6 +74,7 @@
 <script>
 import Locale from '@/mixins/locale'
 import Tree from '@/components/Tree'
+import { isNotEmpty, isEmpty, deepCopy } from '@/utils'
 
 export default {
   name: 'TreeDialog',
@@ -181,16 +182,16 @@ export default {
     },
     // 判断是否显示表头描述
     showHeadText () {
-      return this.$method.isNotEmpty(this.options) &&
-          this.$method.isNotEmpty(this.options.headText) &&
+      return isNotEmpty(this.options) &&
+          isNotEmpty(this.options.headText) &&
           this.options.headText.length > 0
     }
   },
   watch: {
     autoTreeData: {
       handler (v) {
-        if (this.$method.isEmpty(v)) return
-        this.treeData = this.$method.deepCopy(v)
+        if (isEmpty(v)) return
+        this.treeData = deepCopy(v)
         this.checkedTree()
       },
       deep: true,
@@ -201,16 +202,16 @@ export default {
       handler (v) {
         if (!v) return
         // 设置url中的参数
-        if (this.$method.isNotEmpty(this.options.urlParams)) Object.assign(this.queryParams, this.options.urlParams)
+        if (isNotEmpty(this.options.urlParams)) Object.assign(this.queryParams, this.options.urlParams)
         // 设置隐藏的查询条件
-        if (this.$method.isNotEmpty(this.options.hiddenQueryParams)) {
+        if (isNotEmpty(this.options.hiddenQueryParams)) {
           for (let key in this.options.hiddenQueryParams) {
             this.queryParams.conditions.push({ name: key, value: this.options.hiddenQueryParams[key] })
           }
         }
         // 懒加载树时 不查询
         if (this.treeOptions.lazy) return
-        if (this.$method.isEmpty(this.options.unQuery) || !this.options.unQuery) this.query()
+        if (isEmpty(this.options.unQuery) || !this.options.unQuery) this.query()
       }
     },
     // 弹窗大小判断
@@ -255,7 +256,7 @@ export default {
     },
     // 展开root树节点
     expandedTree () {
-      if (this.$method.isNotEmpty(this.treeData) && this.treeData.length > 0 && !this.treeOptions.defaultExpandAll) {
+      if (isNotEmpty(this.treeData) && this.treeData.length > 0 && !this.treeOptions.defaultExpandAll) {
         this.$set(this.treeOptions, 'defaultExpandedKeys', [this.treeData[0].id])
       }
     },
@@ -265,7 +266,7 @@ export default {
       let child = this.treeOptions.children || 'children'
       let setDisabled = arr => {
         arr.forEach(v => {
-          if (this.$method.isNotEmpty(v[child])) {
+          if (isNotEmpty(v[child])) {
             that.$set(v, 'disabled', true)
           }
           if (v[child] instanceof Array) {
@@ -315,7 +316,7 @@ export default {
       // 单选时将数组改变为对象
       if (this.radioOrSelection === 'radio') {
         let item = {}
-        item = this.$method.isNotEmpty(data) ? data[0] : {}
+        item = isNotEmpty(data) ? data[0] : {}
         this.$emit('save', item)
       } else {
         this.$emit('save', data)

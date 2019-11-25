@@ -23,7 +23,7 @@
               size="mini"
               @click="handleButton(item.type)"
             >
-              <i :class="$method.isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
+              <i :class="isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
             </el-button>
           </el-tooltip>
           <!-- 下拉列表显示的配置 -->
@@ -37,7 +37,7 @@
               v-if="showDropDownBtn(item)"
             >
               <el-button size="mini">
-                <i :class="$method.isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
+                <i :class="isNotEmpty(item.icon) ? 'fa ' + item.icon : 'display-none'" />
                 <i class="el-icon-arrow-down el-icon--right" />
               </el-button>
               <el-dropdown-menu slot="dropdown">
@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import { isNotEmpty, isEmpty } from '@/utils'
+
 export default {
   name: 'IconBatchButton',
   props: {
@@ -89,19 +91,19 @@ export default {
     // 判断单个按钮权限 显示/隐藏
     showSingleBtn (item) {
       if (item.kind !== 'button') return false
-      return this.$method.isEmpty(item.perm) || this.hasPerm(item.perm)
+      return isEmpty(item.perm) || this.hasPerm(item.perm)
     },
     // 判断显示下拉按钮权限 显示/隐藏
     showDropDownBtn (item) {
       if (item.kind !== 'dropDown') return false
       // 判断是否存在至少一个选项 不存在则隐藏
-      let noPermIndex = item.data.findIndex(cur => this.$method.isEmpty(cur.perm))
+      let noPermIndex = item.data.findIndex(cur => isEmpty(cur.perm))
       let index = item.data.findIndex(cur => this.hasPerm(cur.perm))
       return index !== -1 || noPermIndex !== -1
     },
     // 判断显示下拉选项权限 显示/隐藏
     showDropDownItem (item) {
-      return this.$method.isEmpty(item.perm) || this.hasPerm(item.perm)
+      return isEmpty(item.perm) || this.hasPerm(item.perm)
     },
     // 初始化 配置显示或隐藏  显示/隐藏列按钮
     initData () {
@@ -113,10 +115,11 @@ export default {
     },
     // 按钮类型
     btnType (item) {
-      if (this.$method.isEmpty(item.btnType)) return 'primary'
-      if (this.$method.isNotEmpty(item.btnType) && item.btnType === 'empty') return ''
-      if (this.$method.isNotEmpty(item.btnType)) return item.btnType
-    }
+      if (isEmpty(item.btnType)) return 'primary'
+      if (isNotEmpty(item.btnType) && item.btnType === 'empty') return ''
+      if (isNotEmpty(item.btnType)) return item.btnType
+    },
+    isNotEmpty
   }
 }
 </script>

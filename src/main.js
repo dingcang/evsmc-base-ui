@@ -15,6 +15,7 @@ import '@/assets/css/common.scss'
 import { uploadImportSearchFile } from '@/api/config'
 
 // ELEMENT.locale(ELEMENT.lang.en)
+Vue.config.devtools = process.env.NODE_ENV === 'development'
 Vue.use(BASEUI, {
   locale,
   uploadImportSearchFile

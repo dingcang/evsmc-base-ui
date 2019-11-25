@@ -696,6 +696,7 @@
 <script>
 import Locale from '@/mixins/locale'
 import ShowImage from '@/components/ShowImage'
+import { isNotEmpty, isEmpty } from '@/utils'
 
 export default {
   name: 'Grid',
@@ -827,7 +828,7 @@ export default {
     },
     // 操作按钮宽度
     operationWidth () {
-      if (this.$method.isNotEmpty(this.options.operationWidth)) return this.options.operationWidth
+      if (isNotEmpty(this.options.operationWidth)) return this.options.operationWidth
       if (this.options.outShowBtn) {
         if ((this.gridOperation.length === 2 && this.gridOperation[0].show) ||
             this.gridOperation.length === 1) return '100px'
@@ -882,7 +883,7 @@ export default {
     // 初始化表格列
     initColumns () {
       for (let item of this.gridColumn) {
-        if (this.$method.isEmpty(item['show'])) {
+        if (isEmpty(item['show'])) {
           // 给每一列设置默认显示
           item['show'] = true
         }
@@ -955,7 +956,7 @@ export default {
     },
     // 全取消 或 选中或取消多选
     toggleRowSelection (row) {
-      if (this.$method.isEmpty(row)) {
+      if (isEmpty(row)) {
         this.$refs.table.clearSelection()
         return
       }
@@ -964,7 +965,7 @@ export default {
     // 列双击
     cellDbClick (row, column, cell) {
       /* let copyText = cell.innerText
-        this.$method.copyToClipboard(copyText)
+        copyToClipboard(copyText)
         let copied = this.t('common.copiedMessage')
         this.$message({
           message: copied,
@@ -1002,26 +1003,26 @@ export default {
     },
     // 判断单按钮 显示/隐藏
     showOneButton (item) {
-      return item.kind === 'button' && (this.hasPerm(item.perm) || this.$method.isEmpty(item.perm))
+      return item.kind === 'button' && (this.hasPerm(item.perm) || isEmpty(item.perm))
     },
     // 设置操作列的按钮权限 显示/隐藏
     showOperationItem (item, row) {
       // 有判断条件显示的按钮
-      if (this.$method.isNotEmpty(item.show)) {
-        return row[item.show.key] === item.show.value && (this.$method.isEmpty(item.perm) || this.hasPerm(item.perm))
+      if (isNotEmpty(item.show)) {
+        return row[item.show.key] === item.show.value && (isEmpty(item.perm) || this.hasPerm(item.perm))
       }
-      return this.hasPerm(item.perm) || this.$method.isEmpty(item.perm)
+      return this.hasPerm(item.perm) || isEmpty(item.perm)
     },
     // 设置隐藏操作下拉
     showOperationTitle (row) {
       let show = false
       for (let i = 0; i < this.gridOperation.length; i++) {
         let item = this.gridOperation[i]
-        if (this.$method.isEmpty(item.show)) {
+        if (isEmpty(item.show)) {
           show = true
           continue
         }
-        if (row[item.show.key] === item.show.value && (this.$method.isEmpty(item.perm) || this.hasPerm(item.perm))) {
+        if (row[item.show.key] === item.show.value && (isEmpty(item.perm) || this.hasPerm(item.perm))) {
           show = true
           break
         }
@@ -1030,18 +1031,19 @@ export default {
     },
     // 设置操作列权限 显示/隐藏
     showOperationColumn () {
-      let noPermIndex = this.gridOperation.findIndex(item => this.$method.isEmpty(item.perm))
+      let noPermIndex = this.gridOperation.findIndex(item => isEmpty(item.perm))
       let index = this.gridOperation.findIndex(item => this.hasPerm(item.perm))
       return index !== -1 || noPermIndex !== -1
     },
     // 显示图片
     showImg (data, src) {
       if (this.imgClass(data, src)) return
-      return this.$method.getImageById(data[src])
+      // TODO
+      return this.$xyConfig.getImageById(data[src])
     },
     // 图片样式
     imgClass (data, src) {
-      return this.$method.isEmpty(data[src])
+      return isEmpty(data[src])
     },
     // 查看照片
     showImage (data, src) {
@@ -1058,7 +1060,7 @@ export default {
     },
     // 设置俩级数据显示
     secondGridText (row, item) {
-      if (this.$method.isEmpty(row[item.prop])) return ''
+      if (isEmpty(row[item.prop])) return ''
       return row[item.prop][item.secondProp]
     },
     // 制作进度条进度
@@ -1132,7 +1134,7 @@ export default {
       page = parseInt(page)
 
       // 校验小于1的页数退出
-      if (this.$method.isEmpty(page) || page < 1) {
+      if (isEmpty(page) || page < 1) {
         let mess = this.t('common.pleaseInputRightPage')
         this.$message.warning(mess)
         return false
